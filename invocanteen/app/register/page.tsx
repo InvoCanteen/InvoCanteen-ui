@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 import { Input } from "@/components/ui/input"
 
-import { api_login } from "@/lib/api";
+import { api_register } from "@/lib/api";
 
 import Lottie  from "lottie-react";
 
@@ -24,11 +24,12 @@ import {
 
 
 
-export default function Login() {
+export default function Register() {
     
     const router = useRouter();
 
     const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -40,11 +41,9 @@ export default function Login() {
 
         try {
 
-        const res = await api_login.post("/api/login", { email, password });
-        
-        localStorage.setItem("token", res?.data?.data?.token);
+        const res = await api_register.post("/api/register", { email, name, password });
 
-        router.replace("/dashboard");
+        router.push("/login");
         } catch (err: any) {
         setError(err.message || "Login gagal");
         } finally {
@@ -73,11 +72,11 @@ export default function Login() {
                     <div className="flex flex-row">
 
                         <div className="hidden md:flex flex-col justify-center">
-                            <Card className="p-13">
+                            <Card className="p-16">
                                 <Lottie 
                                     animationData={invoicelottie} 
                                     loop={true}
-                                    style={{ width: 215, height: 215 }}
+                                    style={{ width: 245, height: 245 }}
                                 />
                             </Card>
                         </div>
@@ -86,25 +85,34 @@ export default function Login() {
 
                             <Card>
                                 <CardHeader>
-                                    <CardTitle className="text-2xl">Login</CardTitle>
+                                    <CardTitle className="text-2xl">Register</CardTitle>
                                     <CardDescription>Input your credentials</CardDescription>
                                 </CardHeader>
 
                                 <CardContent>
                                     <form className="flex flex-col gap-4" onSubmit={handleLogin}>
                                         <Input
-                                        type="email"
-                                        placeholder="Email*"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
+                                            type="email"
+                                            placeholder="Email*"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
                                         />
+
                                         <Input
-                                        type="password"
-                                        placeholder="Password*"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
+                                            type="name"
+                                            placeholder="Name*"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                            required
+                                        />
+
+                                        <Input
+                                            type="password"
+                                            placeholder="Password*"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required
                                         />
 
                                         {error && (
@@ -120,12 +128,12 @@ export default function Login() {
                                         </button>
 
                                         <p className="text-sm text-center">
-                                        Dont have an account?{" "}
+                                            Already have an account?{" "}
                                         <Link
-                                            href="/register"
+                                            href="/login"
                                             className="text-purple-500 hover:underline"
                                         >
-                                            Register
+                                            Login
                                         </Link>
                                         </p>
                                     </form>
