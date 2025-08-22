@@ -27,7 +27,7 @@ import {
 export default function Register() {
     
     const router = useRouter();
-    
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -41,6 +41,8 @@ export default function Register() {
         try {
 
         const res = await api_login.post("/api/login", { email, password });
+        
+        localStorage.setItem("token", res?.data?.data?.token);
 
         router.replace("/dashboard");
         } catch (err: any) {
