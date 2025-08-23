@@ -124,7 +124,7 @@ export default function Register() {
                                         className="rounded-full border border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-base h-12 px-5"
                                         disabled={loading}
                                         >
-                                        {loading ? "Loading..." : "Login"}
+                                        {loading ? "Registering..." : "Register"}
                                         </button>
 
                                         <p className="text-sm text-center">
