@@ -11,6 +11,9 @@ import { api_register } from "@/lib/api";
 
 import Lottie  from "lottie-react";
 
+import { Toaster } from "@/components/ui/sonner"
+import { toast } from "sonner";
+
 // Sudah dicoba menggunakan @, tapi tidak terbaca lottienya
 import invoicelottie from "../src/lottie/invoice-auth2.json";
 
@@ -21,8 +24,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-
-
 
 export default function Register() {
     
@@ -40,19 +41,20 @@ export default function Register() {
         setError(null);
 
         try {
-
-        const res = await api_register.post("/api/register", { email, name, password });
-
-        router.push("/login");
+            await api_register.post("/api/register", { email, name, password });
+            router.push("/login?registered=success");
         } catch (err: any) {
-        setError(err.message || "Login gagal");
+            setError(err.message || "Login gagal");
+            toast.error(err.message);
         } finally {
-        setLoading(false);
+            setLoading(false);
         }
     };
 
     return (
         <div className="font-sans">
+            
+            <Toaster position="top-left" richColors/>
            
             <main className="flex items-center justify-center min-h-screen">
                 
@@ -114,10 +116,6 @@ export default function Register() {
                                             onChange={(e) => setPassword(e.target.value)}
                                             required
                                         />
-
-                                        {error && (
-                                        <div className="text-red-500 text-sm">{error}</div>
-                                        )}
 
                                         <button
                                         type="submit"
