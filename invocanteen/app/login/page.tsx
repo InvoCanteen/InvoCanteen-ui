@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 import Link from 'next/link'
 
@@ -10,6 +11,9 @@ import { Input } from "@/components/ui/input"
 import { api_login } from "@/lib/api";
 
 import Lottie  from "lottie-react";
+
+import { Toaster } from "@/components/ui/sonner"
+import { toast } from "sonner";
 
 // Sudah dicoba menggunakan @, tapi tidak terbaca lottienya
 import invoicelottie from "../src/lottie/invoice-auth2.json";
@@ -22,11 +26,17 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-
-
 export default function Login() {
     
     const router = useRouter();
+
+    const successregisterParams = useSearchParams();
+
+    useEffect(() => {
+        if (successregisterParams.get("registered") === "success") {
+            toast.success("Registrasi berhasil! Silakan login.");
+        }
+    }, [successregisterParams]);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -40,20 +50,28 @@ export default function Login() {
 
         try {
 
-        const res = await api_login.post("/api/login", { email, password });
-        
-        localStorage.setItem("token", res?.data?.data?.token);
+            const res = await api_login.post("/api/login", { email, password });
+            
+            localStorage.setItem("token", res?.data?.data?.token);
 
-        router.replace("/dashboard");
+            toast.success("Login berhasil! Mengarahkan ke dashboard...");
+
+            setTimeout(() => {
+                router.replace("/dashboard");
+            }, 1500);
+
         } catch (err: any) {
-        setError(err.message || "Login gagal");
+            setError(err.message || "Login gagal");
+            toast.error(err.message);
         } finally {
-        setLoading(false);
+            setLoading(false);
         }
     };
 
     return (
         <div className="font-sans">
+
+            <Toaster position="top-left" richColors/>
            
             <main className="flex items-center justify-center min-h-screen">
                 
@@ -106,10 +124,6 @@ export default function Login() {
                                         onChange={(e) => setPassword(e.target.value)}
                                         required
                                         />
-
-                                        {error && (
-                                        <div className="text-red-500 text-sm">{error}</div>
-                                        )}
 
                                         <button
                                         type="submit"
