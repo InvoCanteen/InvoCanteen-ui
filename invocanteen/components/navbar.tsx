@@ -73,7 +73,7 @@ export default function Navbar() {
               key={x.href}
               href={x.href}
               className={`flex items-center gap-2 rounded-lg pl-4 pb-4 pt-4 text-sm
-                ${active ? "bg-blue-500 text-black" : "hover:bg-white/10"}`}
+                ${active ? "bg-white text-pink-500" : "hover:bg-white/10"}`}
               title={x.label}
             >
               {x.icon}
