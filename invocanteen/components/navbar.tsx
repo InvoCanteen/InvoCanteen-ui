@@ -38,8 +38,8 @@ export default function Navbar() {
       className={`${isOpen ? "w-42" : "w-16"} 
         h-screen
         top-0 left-0
-      bg-blue-950
-      text-white      
+        bg-blue-950
+        text-white      
         p-2
         transition-all
         duration-200
