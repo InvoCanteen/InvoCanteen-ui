@@ -39,7 +39,7 @@ export default function Navbar() {
         h-screen
         top-0 left-0
         bg-blue-950
-        text-white      
+        text-white        
         p-2
         transition-all
         duration-200
