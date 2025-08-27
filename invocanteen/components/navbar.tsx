@@ -35,11 +35,13 @@ export default function Navbar() {
 
   return (
     <aside
-      className={`${isOpen ? "w-42" : "w-16"} 
+      style={{ 
+        backgroundColor: "var(--color-blueprimary)", 
+        color:"var(--color-whiteclear)" 
+      }}
+      className={`aside-hover ${isOpen ? "w-42" : "w-16"} 
         h-screen
-        top-0 left-0
-        bg-blue-950
-        text-white        
+        top-0 left-0  
         p-2
         transition-all
         duration-200
@@ -72,8 +74,9 @@ export default function Navbar() {
             <Link
               key={x.href}
               href={x.href}
-              className={`flex items-center gap-2 rounded-lg pl-4 pb-4 pt-4 text-sm
-                ${active ? "bg-white text-pink-500" : "hover:bg-white/10"}`}
+              className={`flex items-center gap-2 rounded-lg pl-4 pb-4 pt-4 text-sm ${
+                active ? "navlink-active" : "navlink-inactive"
+              }`}
               title={x.label}
             >
               {x.icon}
@@ -86,7 +89,7 @@ export default function Navbar() {
       <div className="mt-auto">
         <button
           onClick={() => router.push("/logout")}
-          className="w-full rounded-lg pl-2 pb-2 pt-2 text-left text-sm bg-red-700 hover:bg-red-500"
+          className="w-full rounded-lg pl-2 pb-2 pt-2 text-left text-sm btn-redwarning"
         >
           {isOpen ? "Logout" : <LogOut className="w-5 h-5" />}
         </button>

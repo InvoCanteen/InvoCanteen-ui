@@ -1,0 +1,39 @@
+:root {
+
+  --color-blueprimary: #172554;
+  --color-clearhover: #FFFFFF1A;
+
+  /* Red Warning */
+  --color-redwarning: #f52525;
+  --color-redwarning-hover: #fc5b5b;
+  --color-pinkbright: #f6339a;
+  --color-whiteclear: #ffffff;
+}
+
+ /* Red Warning */
+.btn-redwarning {
+  background-color: var(--color-redwarning);
+  color: #fff;
+  transition: background 0.2s;
+}
+.btn-redwarning:hover {
+  background-color: var(--color-redwarning-hover);
+  cursor: pointer;
+}
+
+ /* Navlink */
+.navlink-active {
+  background-color: var(--color-whiteclear) !important;
+  color: var(--color-pinkbright) !important;
+}
+.navlink-inactive:hover {
+  background-color: var(--color-clearhover);
+}
+
+ /* Aside */
+.aside-hover {
+  transition: background 0.2s;
+}
+.aside-hover:hover {
+  background-color: var(--color-blueprimary-hover, #24306e);
+}
