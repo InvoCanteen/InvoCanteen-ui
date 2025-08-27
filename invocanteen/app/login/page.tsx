@@ -127,7 +127,7 @@ export default function Login() {
 
                                         <button
                                         type="submit"
-                                        className="rounded-full border border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-base h-12 px-5"
+                                        className="btn-blackbutton rounded-full border border-transparent flex items-center justify-center font-medium text-base h-12 px-5"
                                         disabled={loading}
                                         >
                                         {loading ? "Loading..." : "Login"}
@@ -137,7 +137,10 @@ export default function Login() {
                                         Dont have an account?{" "}
                                         <Link
                                             href="/register"
-                                            className="text-purple-500 hover:underline"
+                                            className="hover:underline"
+                                            style={{ 
+                                                    color:"var(--color-linkpurple)" 
+                                                    }}
                                         >
                                             Register
                                         </Link>

@@ -119,7 +119,7 @@ export default function Register() {
 
                                         <button
                                         type="submit"
-                                        className="rounded-full border border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-base h-12 px-5"
+                                        className="btn-blackbutton rounded-full border border-transparent flex items-center justify-center font-medium text-base h-12 px-5"
                                         disabled={loading}
                                         >
                                         {loading ? "Registering..." : "Register"}
@@ -129,7 +129,10 @@ export default function Register() {
                                             Already have an account?{" "}
                                         <Link
                                             href="/login"
-                                            className="text-purple-500 hover:underline"
+                                            className="hover:underline"
+                                            style={{ 
+                                                    color:"var(--color-linkpurple)" 
+                                                    }}
                                         >
                                             Login
                                         </Link>

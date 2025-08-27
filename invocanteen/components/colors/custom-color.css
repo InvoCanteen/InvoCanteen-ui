@@ -11,14 +11,20 @@
   --color-bluebutton: theme('colors.blue.500');
   --color-bluebutton-hover: theme('colors.blue.400');
 
-  /* Blue Button */
+  /* Green Button */
   --color-greenbutton: theme('colors.green.500');
   --color-greenbutton-hover: theme('colors.green.400');
 
+  /* Black Button */
+  --color-blackbutton: theme('colors.black');
+  --color-blackbutton-hover: #505050ff;
+
+  /* Link Color */
+  --color-linkpurple: theme('colors.purple.500');
+  --color-linkblue: theme('colors.blue.500');
+
   --color-pinkbright: #f6339a;
-
   --color-whiteclear: #ffffff;
-
   --color-graystandard: theme('colors.gray.600');
 }
 
@@ -55,6 +61,16 @@
   cursor: pointer;
 }
 
+/* Black Button */
+.btn-blackbutton {
+  background-color: var(--color-blackbutton);
+  color: #fff;
+  transition: background 0.2s;
+}
+.btn-blackbutton:hover {
+  background-color: var(--color-blackbutton-hover);
+  cursor: pointer;
+}
 
  /* Navlink */
 .navlink-active {

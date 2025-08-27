@@ -88,7 +88,7 @@ export default function Navbar() {
 
       <div className="mt-auto">
         <button
-          onClick={() => router.push("/logout")}
+          onClick={() => router.push("/login")}
           className="w-full rounded-lg pl-2 pb-2 pt-2 text-left text-sm btn-redbutton"
         >
           {isOpen ? "Logout" : <LogOut className="w-5 h-5" />}
