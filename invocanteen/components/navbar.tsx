@@ -50,7 +50,7 @@ export default function Navbar() {
       {/* Toggle */}
       <button
         onClick={() => setIsOpen((v) => !v)}
-        className="mb-4 bg-transparent flex justify-center"
+        className="mb-4 bg-transparent flex justify-center cursor-pointer"
         aria-label="Toggle sidebar"
       >
         {isOpen ? <> <SquareChevronLeft className="mr-2" /> Close</> : <SquareChevronRight />}
@@ -89,7 +89,7 @@ export default function Navbar() {
       <div className="mt-auto">
         <button
           onClick={() => router.push("/logout")}
-          className="w-full rounded-lg pl-2 pb-2 pt-2 text-left text-sm btn-redwarning"
+          className="w-full rounded-lg pl-2 pb-2 pt-2 text-left text-sm btn-redbutton"
         >
           {isOpen ? "Logout" : <LogOut className="w-5 h-5" />}
         </button>

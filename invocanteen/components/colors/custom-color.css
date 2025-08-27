@@ -3,23 +3,58 @@
   --color-blueprimary: #172554;
   --color-clearhover: #FFFFFF1A;
 
-  /* Red Warning */
+  /* Red Button */
   --color-redwarning: #f52525;
   --color-redwarning-hover: #fc5b5b;
+
+  /* Blue Button */
+  --color-bluebutton: theme('colors.blue.500');
+  --color-bluebutton-hover: theme('colors.blue.400');
+
+  /* Blue Button */
+  --color-greenbutton: theme('colors.green.500');
+  --color-greenbutton-hover: theme('colors.green.400');
+
   --color-pinkbright: #f6339a;
+
   --color-whiteclear: #ffffff;
+
+  --color-graystandard: theme('colors.gray.600');
 }
 
- /* Red Warning */
-.btn-redwarning {
+/* Red Button */
+.btn-redbutton {
   background-color: var(--color-redwarning);
   color: #fff;
   transition: background 0.2s;
 }
-.btn-redwarning:hover {
+.btn-redbutton:hover {
   background-color: var(--color-redwarning-hover);
   cursor: pointer;
 }
+
+/* Blue Button */
+.btn-bluebutton {
+  background-color: var(--color-bluebutton);
+  color: #fff;
+  transition: background 0.2s;
+}
+.btn-bluebutton:hover {
+  background-color: var(--color-bluebutton-hover);
+  cursor: pointer;
+}
+
+/* Green Button */
+.btn-greenbutton {
+  background-color: var(--color-greenbutton);
+  color: #fff;
+  transition: background 0.2s;
+}
+.btn-greenbutton:hover {
+  background-color: var(--color-greenbutton-hover);
+  cursor: pointer;
+}
+
 
  /* Navlink */
 .navlink-active {

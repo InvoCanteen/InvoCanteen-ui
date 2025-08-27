@@ -29,7 +29,11 @@ export default function ProfilePage() {
       <main className="flex-1 p-6">
         <div>
           <h1 className="text-2xl font-bold">Profile</h1>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm"
+              style={{ 
+                color:"var(--color-graystandard)" 
+              }}
+          >
             Profile Picture.
           </p>
           {/* Foto Profile */}
@@ -55,9 +59,9 @@ export default function ProfilePage() {
             
           </Dialog>
 
-            <Button variant="outline" className="bg-blue-500 text-white hover:text-white hover:bg-blue-400">Change Picture</Button>
+            <Button variant="outline" className="btn-bluebutton">Change Picture</Button>
 
-            <Button variant="outline" className="bg-red-500 text-white hover:text-white hover:bg-red-400">Delete Picture</Button>
+            <Button variant="outline" className="btn-redbutton">Delete Picture</Button>
 
           </div>
 
@@ -73,7 +77,7 @@ export default function ProfilePage() {
             <Input type="password" placeholder="Password" />
 
             <div className="flex justify-end pt-6">
-              <Button variant="outline" className="bg-green-500 text-white hover:text-white hover:bg-green-400">Save Changes</Button>
+              <Button variant="outline" className="btn-greenbutton">Save Changes</Button>
             </div>
             
           </div>
