@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Link from "next/link";
 
@@ -33,15 +33,23 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
 
+  useEffect(() => {
+    const openW = "11rem";  
+    const closedW = "4rem";
+    document.documentElement.style.setProperty("--sidebar-w", isOpen ? openW : closedW);
+  }, [isOpen]);
+
   return (
     <aside
       style={{ 
         backgroundColor: "var(--color-blueprimary)", 
-        color:"var(--color-whiteclear)" 
+        color:"var(--color-whiteclear)",
+        width: "var(--sidebar-w)" 
       }}
-      className={`aside-hover ${isOpen ? "w-42" : "w-16"} 
+      className={`aside-hover ${isOpen ? "w-42" : "w-16"}
+        fixed
         h-screen
-        top-0 left-0  
+        top-0 left-0
         p-2
         transition-all
         duration-200

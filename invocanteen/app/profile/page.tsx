@@ -26,8 +26,8 @@ export default function ProfilePage() {
 
       <Navbar />
 
-      <main className="flex-1 p-6">
-        <div>
+      <main className="flex-1 pl-[var(--sidebar-w)] transition-[padding] duration-200">
+        <div className="flex-1 p-6 w-full">
           <h1 className="text-2xl font-bold">Profile</h1>
           <p className="text-sm"
               style={{ 

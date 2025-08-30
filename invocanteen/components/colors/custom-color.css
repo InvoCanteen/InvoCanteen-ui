@@ -15,6 +15,10 @@
   --color-greenbutton: theme('colors.green.500');
   --color-greenbutton-hover: theme('colors.green.400');
 
+  /* Yellow Button */
+  --color-yellowbutton: theme('colors.yellow.500');
+  --color-yellowbutton-hover: theme('colors.yellow.400');
+
   /* Black Button */
   --color-blackbutton: theme('colors.black');
   --color-blackbutton-hover: #505050ff;
@@ -24,8 +28,17 @@
   --color-linkblue: theme('colors.blue.500');
 
   --color-pinkbright: #f6339a;
+  --color-pinkverybright: #ff0088;
   --color-whiteclear: #ffffff;
+  --color-blackclear: #000000;
   --color-graystandard: theme('colors.gray.600');
+  --color-graydark: theme('colors.gray.800');
+  --color-grayclear: theme('colors.gray.300');
+  --color-greenstandard: theme('colors.green.600');
+  --color-graypopovertext: theme('colors.gray.400');
+  --color-grayforpopoverbg: theme('colors.gray.100');
+  --color-greenlowbright: theme('colors.green.300');
+  --color-greenmediumbright: theme('colors.green.500');
 }
 
 /* Red Button */
@@ -61,6 +74,17 @@
   cursor: pointer;
 }
 
+/* Yellow Button */
+.btn-yellowbutton {
+  background-color: var(--color-yellowbutton);
+  color: #fff;
+  transition: background 0.2s;
+}
+.btn-yellowbutton:hover {
+  background-color: var(--color-yellowbutton-hover);
+  cursor: pointer;
+}
+
 /* Black Button */
 .btn-blackbutton {
   background-color: var(--color-blackbutton);
@@ -69,6 +93,16 @@
 }
 .btn-blackbutton:hover {
   background-color: var(--color-blackbutton-hover);
+  cursor: pointer;
+}
+
+/* Gray Close */
+.btn-closebutton {
+  color: var(--color-graypopovertext);
+  transition: color 0.2s;
+}
+.btn-closebutton:hover {
+  color: var(--color-graydark);
   cursor: pointer;
 }
 
