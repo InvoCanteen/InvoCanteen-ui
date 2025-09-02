@@ -47,10 +47,15 @@ const initialItems: ItemProductsMenu[] = [
   { id: 6, name: "French Fries", qty: 2, price: 8000  },
 ];
 
+import CardOnholdorder from "@/components/custom/cardonholdorder";
+import CardCustomerorder from "@/components/custom/cardcustomerorder";
+
 export default function ProductsPage() {
 
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
+  const [showCardOnholdorder, setCardOnholdorder] = React.useState(false);
+  const [showCardCustomerorder, setCardCustomerorder] = React.useState(false);
 
   return (
     <div className="flex min-h-screen">
@@ -129,11 +134,13 @@ export default function ProductsPage() {
               <div className="flex flex-1 flex-row justify-end gap-2">
                 <Button variant="outline" className="btn-bluebutton">All</Button>
 
-                <Button variant="outline" className="btn-yellowbutton">
+                <Button onClick={() => setCardOnholdorder(true)}
+                variant="outline" className="btn-yellowbutton">
                   <Hand />
                   On Hold Orders
                 </Button>
-                <Button variant="outline" className="btn-greenbutton">
+                <Button onClick={() => setCardCustomerorder(true)}
+                 variant="outline" className="btn-greenbutton">
                   <UserRound />
                   Customers Orders
                 </Button>
@@ -165,6 +172,8 @@ export default function ProductsPage() {
             </div>
 
           </div>
+          {showCardOnholdorder && <CardOnholdorder onClose={() => setCardOnholdorder(false)} />}
+          {showCardCustomerorder && <CardCustomerorder onClose={() => setCardCustomerorder(false)} />}
         </div>
       </main>
     </div>

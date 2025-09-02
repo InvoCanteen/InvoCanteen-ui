@@ -55,7 +55,11 @@ export default function CardNewpayment({ onClose }: CardPaymentProps) {
           <X size={20} />
         </button>
 
-        <h2 className="text-xl text-black mb-4">Payment</h2>
+        <h2 className="text-xl font-semibold text-black mb-4">Payment</h2>
+        
+        <hr className="border-b border-[0.5px] mb-4" 
+                style={{ borderColor: "var(--color-grayclear)" }}
+            />
 
         <div className="flex flex-row gap-2 pt-4 pb-4">
           {/* Tabs kiri */}

@@ -1,26 +1,15 @@
 "use client";
 
-import * as React from "react"
-
 import { X } from "lucide-react";
 
 import Lottie  from "lottie-react";
-import warninglottie from "@/app/src/lottie/warning-lottie.json";
+import warninglottie from "@/app/src/lottie/warning-lottie2.json";
 
-import CardPreviewinvoice from "./cardpreviewinvoice";
-
-interface CardPrintreceiptProps {
+interface CardDeleteorderProps {
   onClose: () => void;
 }
 
-interface CardPreviewinvoiceProps {
-  onClose: () => void;
-}
-
-export default function CardPrintreceipt({ onClose }: CardPrintreceiptProps) {
-
-  const [showPreviewinvoice, setPreviewinvoice] = React.useState(false);
-
+export default function CardDeleteorder({ onClose }: CardDeleteorderProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-[400px] relative">
@@ -36,23 +25,33 @@ export default function CardPrintreceipt({ onClose }: CardPrintreceiptProps) {
           <Lottie 
             animationData={warninglottie} 
             loop={true}
-            style={{ width: 140, height: 140 }}
+            style={{ width: 180, height: 180 }}
           />
         </div>
 
 
-        <h1 className="text-3xl text-black mb-2 -mt-2 text-center">Print Receipt?</h1>
+        <h1 className="text-3xl mb-2 -mt-6 text-center"
+          style={{ color: "var(--color-blackclear)" }}
+          >Delete Order</h1>
 
         <div className="flex flex-col text-sm mb-4">
           <p className="text-center"
             style={{ 
               color:"var(--color-graystandard)" 
             }}>
-            Do you want to print the receipt? If yes click print!
+            Cart will be removed.
           </p>
+
+          <p className="text-center"
+            style={{ 
+              color:"var(--color-graystandard)" 
+            }}>
+            Are you sure you want to proceed?
+          </p>
+          
         </div>
 
-        <div className="mt-4 flex flex-row gap-2 pl-4 pr-4">
+        <div className="mt-4 flex flex-row gap-4 pl-4 pr-4">
           <button
             onClick={onClose}
             className="btn-greenbutton w-full px-4 py-2 text-sm border rounded-xl"
@@ -60,14 +59,13 @@ export default function CardPrintreceipt({ onClose }: CardPrintreceiptProps) {
             Cancel
           </button>
           <button
-            onClick={() => setPreviewinvoice(true)}
+            onClick={onClose}
             className="btn-redbutton w-full px-4 py-2 text-sm border rounded-xl"
           >
-            Print
+            Yes
           </button>
         </div>
       </div>
-      {showPreviewinvoice && <CardPreviewinvoice onClose={() => setPreviewinvoice(false)} />}
     </div>
   );
 }
