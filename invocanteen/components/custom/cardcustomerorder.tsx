@@ -6,6 +6,9 @@ import { X, Trash2, CreditCard, Printer } from "lucide-react";
 
 interface CardCustomerorderProps {
   onClose: () => void;
+  setCustomerName: (name: string) => void;
+  customerNo: number;
+  setCustomerNo: (no: number) => void;
 }
 
 import CardNewpayment from "@/components/custom/cardnewpayment";
@@ -43,7 +46,7 @@ export default function CardCustomerorder({ onClose }: CardCustomerorderProps) {
             </button>
 
             <h2 className="text-xl font-semibold text-black mb-4">
-                Customer Orders
+                Unpaid Orders
             </h2>
 
             <hr className="border-b border-[0.5px] mb-4" 

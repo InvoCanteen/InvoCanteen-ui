@@ -10,4 +10,5 @@ export type ItemProductsMenu = {
   name: string;
   qty: number;
   price: number;
+  imageProduct?: string;
 };

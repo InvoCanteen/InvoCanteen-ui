@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react"
+import { useEffect, useState } from "react";
 
 import { Check, ChevronDown, Search, X, Banknote, Hand, CircleMinus, Plus } from "lucide-react"
 
@@ -33,37 +34,56 @@ const chooseplace = [
 
 import { ItemProductsSidebar } from "@/types/product";
 
-const initialItems: ItemProductsSidebar[] = [
-  { id: 1, name: "Hotdog", qty: 1, price: 10000 },
-  { id: 2, name: "Coca Cola", qty: 2, price: 7000  },
-  { id: 3, name: "Burger", qty: 1, price: 15000 },
-  { id: 4, name: "Kebab", qty: 2, price: 8000  },
-  { id: 5, name: "Meatballs", qty: 1, price: 15000 },
-  { id: 6, name: "French Fries", qty: 2, price: 8000  },
-];
+interface SidebarproductsProps {
+  items: ItemProductsSidebar[];
+  setItems: React.Dispatch<React.SetStateAction<ItemProductsSidebar[]>>;
+  customerName: string;
+  customerNo: number;
+  setCustomerName: (name: string) => void;
+  setCustomerNo: (no: number) => void;
+  clearItems: () => void; 
+}
+
+// const initialItems: ItemProductsSidebar[] = [
+//   { id: 1, name: "Hotdog", qty: 1, price: 10000 },
+//   { id: 2, name: "Coca Cola", qty: 2, price: 7000  },
+//   { id: 3, name: "Burger", qty: 1, price: 15000 },
+//   { id: 4, name: "Kebab", qty: 2, price: 8000  },
+//   { id: 5, name: "Meatballs", qty: 1, price: 15000 },
+//   { id: 6, name: "French Fries", qty: 2, price: 8000  },
+// ];
 
 import CardNewcustomer from "@/components/custom/cardnewcustomer";
 import CardNewpayment from "@/components/custom/cardnewpayment";
 import CardCancelorder from "@/components/custom/cardcancelorder";
 
-export default function Sidebarproducts() {
+import { getAllcart } from "@/lib/api";
+
+export default function Sidebarproducts({
+  items,
+  setItems,
+  customerName,
+  customerNo,
+  setCustomerName,
+  setCustomerNo,
+  clearItems,
+}: SidebarproductsProps) {
 
     const [open, setOpen] = React.useState(false)
     const [value, setValue] = React.useState("")
-    const [items, setItems] = React.useState<ItemProductsSidebar[]>(initialItems);
 
     const [showNewcustomer, setNewcustomer] = React.useState(false);
     const [showNewpayments, setNewpayments] = React.useState(false);
     const [showCancelOrder, setCancelOrder] = React.useState(false);
 
     const refId = "#12345"
-    const totalItem = "5"
+    const totalItem = items.reduce((sum, it) => sum + it.qty, 0);
     const serviceCharge = "10%"
     const priceGross = "550000"
 
     const updateQty = (id: number, qty: number) => {
         setItems((prev) =>
-        prev.map((it) => (it.id === id ? { ...it, qty: Math.max(0, qty) } : it))
+        prev.map((it) => (it.id === id ? { ...it, qty: Math.max(0, qty) } : it)).filter((it) => it.qty > 0)
         );
     };
 
@@ -166,6 +186,19 @@ export default function Sidebarproducts() {
                         <span className="text-blue-500">{refId}</span>
                     </p>
 
+                    {customerName && (
+                        <p className="text-sm -mt-2">
+                            <span className="text-black">Name :</span>{" "}
+                            <span className="text-blue-500">{customerName}</span>
+                        </p>
+                    )}
+                    {customerName && (
+                        <p className="text-sm -mt-2">
+                            <span className="text-black">No :</span>{" "}
+                            <span className="text-blue-500">{customerNo}</span>
+                        </p>
+                    )}
+
                     <div className="overflow-hidden rounded-lg border border-gray-200">
                         <table className="w-full border-collapse">
                             <thead className="bg-gray-50"
@@ -206,7 +239,7 @@ export default function Sidebarproducts() {
                                 <td className="px-2 py-2 text-right tabular-nums text-xs"
                                 style={{
                                         color:"var(--color-blackclear)"
-                                    }}>{it.price}</td>
+                                    }}>{it.price * it.qty}</td>
                                 <td className="px-1 py-2">
                                     <button
                                     onClick={() => removeItem(it.id)}
@@ -309,9 +342,17 @@ export default function Sidebarproducts() {
                 </div>
 
             </div>
-            {showNewcustomer && <CardNewcustomer onClose={() => setNewcustomer(false)} />}
-            {showNewpayments && <CardNewpayment onClose={() => setNewpayments(false)} />}
-            {showCancelOrder && <CardCancelorder onClose={() => setCancelOrder(false)} />}
+            {showNewcustomer && (
+                <CardNewcustomer
+                    onClose={() => setNewcustomer(false)}
+                    setCustomerName={setCustomerName}
+                    customerNo={customerNo}
+                    setCustomerNo={setCustomerNo}
+                    clearItems={() => setItems([])}
+                />
+            )}
+            {showNewpayments && <CardNewpayment onClose={() => setNewcustomer(false)} />}
+            {showCancelOrder && (<CardCancelorder onClose={() => setCancelOrder(false)} clearItems={() => setItems([])}/>)}
         </aside>
     );
 }

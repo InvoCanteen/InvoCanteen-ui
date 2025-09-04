@@ -6,17 +6,14 @@ import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { Input } from "../ui/input";
 
-import { toast } from "sonner";
-
-interface CardNewcustomerProps {
+interface CardCustomerprintProps {
   onClose: () => void;
   setCustomerName: (name: string) => void;
   customerNo: number;
   setCustomerNo: (no: number) => void;
-  clearItems: () => void;
 }
 
-export default function CardNewcustomer({ onClose, setCustomerName, customerNo, setCustomerNo,clearItems }: CardNewcustomerProps) {
+export default function CardCustomerprint({ onClose, setCustomerName, customerNo, setCustomerNo }: CardCustomerprintProps) {
 
   const [name, setName] = React.useState("");
 
@@ -50,6 +47,36 @@ export default function CardNewcustomer({ onClose, setCustomerName, customerNo, 
                   color: "var(--color-blackclear)" 
                 }}
           />
+
+          <p>
+            <span className="font-semibold text-black">Customer Phone Number</span>
+            <span style={{ 
+                color: "var(--color-redwarning)" }} >*</span>
+          </p>
+          <Input placeholder="Phone Number"
+              style={{ 
+                  color: "var(--color-blackclear)" 
+                }} />
+
+          <p>
+            <span className="font-semibold text-black">Customer Email</span>
+            <span style={{ 
+                color: "var(--color-redwarning)" }} >*</span>
+          </p>
+          <Input placeholder="Email" 
+              style={{ 
+                  color: "var(--color-blackclear)" 
+                }}/>
+
+          <p>
+            <span className="font-semibold text-black">Customer Address</span>
+            <span style={{ 
+                color: "var(--color-redwarning)" }} >*</span>
+          </p>
+          <Input placeholder="Address" 
+            style={{ 
+                  color: "var(--color-blackclear)" 
+                }}/>
         </div>
 
         <div className="mt-4 w-full">
@@ -57,8 +84,6 @@ export default function CardNewcustomer({ onClose, setCustomerName, customerNo, 
             onClick={() => {
               setCustomerName(name);
               setCustomerNo(customerNo + 1);
-              clearItems();
-              toast.success("Customer berhasil ditambahkan!");
               onClose();
             }}
             className="btn-bluebutton w-full px-4 py-2 text-sm border rounded-full"

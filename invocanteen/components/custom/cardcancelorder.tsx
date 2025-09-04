@@ -7,9 +7,10 @@ import warninglottie from "@/app/src/lottie/warning-lottie2.json";
 
 interface CardCancelorderProps {
   onClose: () => void;
+  clearItems: () => void;
 }
 
-export default function CardCancelorder({ onClose }: CardCancelorderProps) {
+export default function CardCancelorder({ onClose, clearItems }: CardCancelorderProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-[400px] relative">
@@ -59,7 +60,10 @@ export default function CardCancelorder({ onClose }: CardCancelorderProps) {
             Cancel
           </button>
           <button
-            onClick={onClose}
+            onClick={() => {
+              clearItems();
+              onClose();
+            }}
             className="btn-redbutton w-full px-4 py-2 text-sm border rounded-xl"
           >
             Yes

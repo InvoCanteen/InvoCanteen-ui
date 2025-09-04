@@ -22,7 +22,7 @@ type NavItem = { href: string; label: string; icon: React.ReactNode };
 const navbarcontent: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: <LayoutDashboard size={20} /> },
   { href: "/products", label: "Products", icon: <ShoppingBasket size={20} /> },
-  { href: "/cart", label: "Cart", icon: <ShoppingCart size={20} /> },
+  // { href: "/cart", label: "Cart", icon: <ShoppingCart size={20} /> },
   { href: "/invoice", label: "Invoice", icon: <ReceiptText size={20} /> },
   { href: "/profile", label: "Profile", icon: <User2 size={20} /> },
 ];
