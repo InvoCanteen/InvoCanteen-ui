@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useEffect, useState } from "react";
 
-import { Check, ChevronDown, Search, X, Banknote, Hand, CircleMinus, Plus } from "lucide-react"
+import { Check, ChevronDown, Search, X, Banknote, Hand, CircleMinus, Plus, Trash2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -56,6 +56,7 @@ interface SidebarproductsProps {
 import CardNewcustomer from "@/components/custom/cardnewcustomer";
 import CardNewpayment from "@/components/custom/cardnewpayment";
 import CardCancelorder from "@/components/custom/cardcancelorder";
+import CardDeletecustomer from "./custom/carddeletecustomer";
 
 import { getAllcart } from "@/lib/api";
 
@@ -75,6 +76,7 @@ export default function Sidebarproducts({
     const [showNewcustomer, setNewcustomer] = React.useState(false);
     const [showNewpayments, setNewpayments] = React.useState(false);
     const [showCancelOrder, setCancelOrder] = React.useState(false);
+    const [showDeleteCustomer, setDeleteCustomer] = React.useState(false);
 
     const refId = "#12345"
     const totalItem = items.reduce((sum, it) => sum + it.qty, 0);
@@ -181,23 +183,38 @@ export default function Sidebarproducts({
 
                     </div>
 
-                    <p className="text-sm">
-                        <span className="text-black">Reference :</span>{" "}
-                        <span className="text-blue-500">{refId}</span>
-                    </p>
+                    <div className="flex flex-row items-start justify-between px-2">
 
-                    {customerName && (
-                        <p className="text-sm -mt-2">
-                            <span className="text-black">Name :</span>{" "}
-                            <span className="text-blue-500">{customerName}</span>
-                        </p>
-                    )}
-                    {customerName && (
-                        <p className="text-sm -mt-2">
-                            <span className="text-black">No :</span>{" "}
-                            <span className="text-blue-500">{customerNo}</span>
-                        </p>
-                    )}
+                        <div className="flex flex-col gap-4">
+
+                            <p className="text-m">
+                                <span className="text-black">Reference :</span>{" "}
+                                <span className="text-blue-500">{refId}</span>
+                            </p>
+
+                            {customerName && (
+                                <p className="text-m -mt-2">
+                                    <span className="text-black">Name :</span>{" "}
+                                    <span className="text-blue-500">{customerName}</span>
+                                </p>
+                            )}
+                            {customerName && (
+                                <p className="text-m -mt-2">
+                                    <span className="text-black">No :</span>{" "}
+                                    <span className="text-blue-500">{customerNo}</span>
+                                </p>
+                            )}
+
+                        </div>
+
+                        <div className="flex flex-col ">
+                            <button onClick={() => setDeleteCustomer(true)}>
+                                <Trash2 className="h-6 w-6 cursor-pointer icon-redbutton" />
+                            </button>
+                        </div>
+                    </div>
+
+
 
                     <div className="overflow-hidden rounded-lg border border-gray-200">
                         <table className="w-full border-collapse">
@@ -351,7 +368,8 @@ export default function Sidebarproducts({
                     clearItems={() => setItems([])}
                 />
             )}
-            {showNewpayments && <CardNewpayment onClose={() => setNewcustomer(false)} />}
+            {showNewpayments && <CardNewpayment onClose={() => setNewpayments(false)} />}
+            {showDeleteCustomer && <CardDeletecustomer onClose={() => setDeleteCustomer(false)} />}
             {showCancelOrder && (<CardCancelorder onClose={() => setCancelOrder(false)} clearItems={() => setItems([])}/>)}
         </aside>
     );

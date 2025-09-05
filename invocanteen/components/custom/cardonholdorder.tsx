@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { X, Trash2, CreditCard, Printer } from "lucide-react";
+import { X, Trash2, CreditCard, Printer, SquareArrowOutUpRight } from "lucide-react";
 
 interface CardOnholdorderProps {
   onClose: () => void;
@@ -50,39 +50,46 @@ export default function CardOnholdorder({ onClose }: CardOnholdorderProps) {
 
             {/* Grid card orders */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-h-[500px] overflow-y-auto">
-            {onHoldOrders.map((order) => (
-                <div
-                key={order.id}
-                className="border rounded-lg p-3 shadow-sm flex flex-col justify-between text-sm"
-                >
-                <div className="mb-2">
-                    <p className="text-gray-600">
-                    Ref #:{" "}
-                    <span className="text-blue-600 font-semibold">
-                        {order.id}
-                    </span>
-                    </p>
-                    <p className="text-gray-600">Price : Rp. {order.price}</p>
-                    <p className="text-gray-600">Items : {order.items}</p>
-                    <p className="text-gray-600">Customer : {order.customer}</p>
-                </div>
+                {onHoldOrders.map((order) => (
+                    <div
+                        key={order.id}
+                        className="border rounded-lg p-3 shadow-sm flex flex-col justify-between text-sm"
+                    >
+                        <div className="mb-2 flex items-start justify-between">
+                            <div className="flex flex-col">
+                                <p className="text-gray-600">
+                                Ref #:{" "}
+                                <span className="text-blue-600 font-semibold">
+                                    {order.id}
+                                </span>
+                                </p>
+                                <p className="text-gray-600">Price : Rp. {order.price}</p>
+                                <p className="text-gray-600">Items : {order.items}</p>
+                                <p className="text-gray-600">Customer : {order.customer}</p>
+                            </div>
+                            <div>
+                                <button className="flex items-center gap-1 text-white text-xs py-1 rounded justify-between">
+                                <SquareArrowOutUpRight className="text-yellow-500" size={14} />
+                            </button>
+                            </div>
+                        </div>
 
-                {/* Actions */}
-                <div className="flex gap-2 mt-auto">
-                    <button className="flex-[1] flex items-center justify-center gap-1 bg-red-500 text-white text-xs py-1 rounded hover:bg-red-600">
-                        <Trash2 size={14} />
-                    </button>
+                        {/* Actions */}
+                        <div className="flex gap-2 mt-auto">
+                            <button className="flex-[1] flex items-center justify-center gap-1 bg-red-500 text-white text-xs py-1 rounded hover:bg-red-600">
+                                <Trash2 size={14} />
+                            </button>
 
-                    <button className="flex-[1] flex items-center justify-center gap-1 bg-blue-500 text-white text-xs py-1 rounded hover:bg-blue-600">
-                        <Printer size={14} />
-                    </button>
-                    
-                    <button onClick={() => setNewpayments(true)} className="flex-[3] flex items-center justify-center gap-1 bg-green-500 text-white text-xs py-1 rounded hover:bg-green-600">
-                        <CreditCard size={14} /> Pay Now
-                    </button>
-                </div>
-                </div>
-            ))}
+                            <button className="flex-[1] flex items-center justify-center gap-1 bg-blue-500 text-white text-xs py-1 rounded hover:bg-blue-600">
+                                <Printer size={14} />
+                            </button>
+                            
+                            <button onClick={() => setNewpayments(true)} className="flex-[3] flex items-center justify-center gap-1 bg-green-500 text-white text-xs py-1 rounded hover:bg-green-600">
+                                <CreditCard size={14} /> Pay Now
+                            </button>
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
         {showNewpayments && <CardNewpayment onClose={() => setNewpayments(false)} />}

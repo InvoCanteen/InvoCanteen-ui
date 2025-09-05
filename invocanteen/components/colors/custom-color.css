@@ -52,6 +52,15 @@
   cursor: pointer;
 }
 
+.icon-redbutton {
+  color: var(--color-redwarning);
+  transition: background 0.2s;
+}
+.icon-redbutton:hover {
+  color: var(--color-redwarning-hover);
+  cursor: pointer;
+}
+
 /* Blue Button */
 .btn-bluebutton {
   background-color: var(--color-bluebutton);
