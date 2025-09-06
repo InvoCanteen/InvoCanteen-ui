@@ -3,6 +3,8 @@
 import * as React from "react"
 import { useEffect, useState } from "react";
 
+import { createNewcart, createNewnameoncart } from "@/lib/api";
+
 import { X } from "lucide-react";
 import { Input } from "../ui/input";
 
@@ -19,6 +21,10 @@ interface CardNewcustomerProps {
 export default function CardNewcustomer({ onClose, setCustomerName, customerNo, setCustomerNo,clearItems }: CardNewcustomerProps) {
 
   const [name, setName] = React.useState("");
+
+  // React.useEffect(() => {
+  //   setCustomerNo(customerNo + 1);
+  // }, []);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
@@ -54,13 +60,25 @@ export default function CardNewcustomer({ onClose, setCustomerName, customerNo, 
 
         <div className="mt-4 w-full">
           <button
-            onClick={() => {
-              setCustomerName(name);
-              setCustomerNo(customerNo + 1);
-              clearItems();
-              toast.success("Customer berhasil ditambahkan!");
-              onClose();
-            }}
+            onClick={async () => {
+              try {
+                    const cart = await createNewcart();
+                    
+                    setCustomerNo(cart.id);
+
+                    await createNewnameoncart(cart.id, name);
+
+                    setCustomerName(name);
+                    clearItems();
+
+                    toast.success("Customer berhasil ditambahkan!");
+
+                    onClose();
+
+                    } catch (error) {
+                      toast.error("Gagal menambahkan customer!");
+                    }
+                  }}
             className="btn-bluebutton w-full px-4 py-2 text-sm border rounded-full"
           >
             Confirm

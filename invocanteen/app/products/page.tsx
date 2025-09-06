@@ -25,6 +25,16 @@ import {
   CommandList,
 } from "@/components/ui/command"
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+
 import { ItemProductsMenu, ItemProductsSidebar } from "@/types/product";
 
 const choosecategories = [
@@ -67,12 +77,10 @@ export default function ProductsPage() {
 
   const [customerName, setCustomerName] = useState("");
   const [customerNo, setCustomerNo] = useState(1);
-  
-  useEffect(() => {
-    getProducts().then((res) => {
-      setProducts(res.data);
-    });
-  }, []);
+
+  const [offset, setOffset] = useState(0);
+  const limit = 12;
+  const currentPage = Math.floor(offset / limit) + 1;
 
   const handleIncreaseItem = (item: ItemProductsMenu) => {
     setItems((prev) => {
@@ -104,6 +112,31 @@ export default function ProductsPage() {
     });
   }, []);
 
+  const fetchProducts = (offsetValue: number) => {
+    getProducts({
+      sortBy: "name",
+      order: "desc",
+      minPrice: "",
+      maxPrice: "",
+      limit,
+      offset: offsetValue,
+    }).then((res) => {
+      setProducts(res.data);
+    });
+  };
+
+  useEffect(() => {
+    fetchProducts(offset);
+  }, [offset]);
+
+  const handleNext = () => {
+    setOffset((prev) => prev + limit);
+  };
+
+  const handlePrev = () => {
+    setOffset((prev) => Math.max(0, prev - limit));
+  };
+
   return (
     <div className="flex min-h-screen">
       
@@ -128,7 +161,7 @@ export default function ProductsPage() {
           </div>
 
           <div className="flex flex-col p-2 flex-1">
-            <div className="flex flex-row p-2 gap-2">
+            <div className="flex flex-row px-2 gap-2">
               <Input
                 placeholder="Search products by name or code"
               />
@@ -213,9 +246,9 @@ export default function ProductsPage() {
                     <img
                       src={item.imageProduct || "https://picsum.photos/200/200"}
                       alt={item.name}
-                      className="w-[100px] h-[100px] object-cover rounded"
+                      className="w-[90px] h-[90px] object-cover rounded"
                     />
-                    <p className="mt-2 font-medium">{item.name}</p>
+                    <p className="font-medium">{item.name}</p>
                     <p className="text-sm" style={{ color: "var(--color-greenstandard)" }}>
                       Rp. {Number(item.price).toLocaleString("id-ID")}
                     </p>
@@ -229,6 +262,24 @@ export default function ProductsPage() {
                     </div>
                   </div>
                 ))}
+              </div>
+              <div className="pt-6">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious href="#" onClick={handlePrev} />
+                    </PaginationItem>
+                    <PaginationItem>
+                      <PaginationLink href="#">{Math.floor(offset / limit) + 1}</PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                      <PaginationEllipsis />
+                    </PaginationItem>
+                    <PaginationItem>
+                      <PaginationNext href="#" onClick={handleNext}/>
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
               </div>
             </div>
 

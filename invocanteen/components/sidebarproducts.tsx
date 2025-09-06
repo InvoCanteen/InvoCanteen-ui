@@ -58,8 +58,6 @@ import CardNewpayment from "@/components/custom/cardnewpayment";
 import CardCancelorder from "@/components/custom/cardcancelorder";
 import CardDeletecustomer from "./custom/carddeletecustomer";
 
-import { getAllcart } from "@/lib/api";
-
 export default function Sidebarproducts({
   items,
   setItems,

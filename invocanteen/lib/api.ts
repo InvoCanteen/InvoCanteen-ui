@@ -57,9 +57,17 @@ export const api_product = axios.create({
   timeout: 15000,
 });
 
-export async function getProducts() {
+export async function getProducts(params: {
+  sortBy: string;
+  order: string;
+  minPrice: string;
+  maxPrice: string;
+  limit: number;
+  offset: number;
+}) {
+  const { sortBy, order, minPrice, maxPrice, limit, offset } = params;
   const res = await api_product.get(
-    "/api/product/get?sortBy=price&order=asc&minPrice=&maxPrice=&limit=&offset="
+    `/api/product/get?sortBy=${sortBy}&order=${order}&minPrice=${minPrice}&maxPrice=${maxPrice}&limit=${limit}&offset=${offset}`
   );
   return res.data;
 }
@@ -85,6 +93,51 @@ export async function getAllcart() {
   } else {
     console.log("Tidak ada data cart");
   }
+
+  return data;
+}
+
+// ---------------------------------------
+
+// Open new cart
+export const api_createcart = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 15000,
+});
+
+export async function createNewcart() {
+  const res = await api_createcart.post("api/cart");
+  const data = res.data;
+
+  if (data && data.id) {
+    console.log("Created New Cart ID :", data.id);
+  } else {
+    console.log("Failed to create new cart");
+  }
+
+  return data;
+}
+
+// ---------------------------------------
+
+export const api_createnameoncart = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 15000,
+});
+
+export async function createNewnameoncart(id: number, customerName: string) {
+  const res = await api_createnameoncart.patch(`api/cart/${id}`, {
+    customerName,
+  });
+  const data = res.data;
 
   return data;
 }
