@@ -48,20 +48,11 @@ const choosecategories = [
   },
 ]
 
-// const initialItems: ItemProductsMenu[] = [
-//   { id: 1, name: "Hotdog", qty: 1, price: 10000 },
-//   { id: 2, name: "Coca Cola", qty: 2, price: 7000  },
-//   { id: 3, name: "Burger", qty: 1, price: 15000 },
-//   { id: 4, name: "Kebab", qty: 2, price: 8000  },
-//   { id: 5, name: "Meatballs", qty: 1, price: 15000 },
-//   { id: 6, name: "French Fries", qty: 2, price: 8000  },
-// ];
-
 import CardOnholdorder from "@/components/custom/cardonholdorder";
 import CardCustomerorder from "@/components/custom/cardcustomerorder";
 
 import { useEffect, useState } from "react";
-import { getProducts, getAllcart } from "@/lib/api";
+import { getProducts, getAllcartlastid } from "@/lib/api";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -82,15 +73,36 @@ export default function ProductsPage() {
   const limit = 12;
   const currentPage = Math.floor(offset / limit) + 1;
 
+  const cartId = customerNo;
+  console.log({cartId});
+
+  const payload = items.map(it => ({
+    cartId,
+    productId: it.id,
+    quantity: it.qty,
+  }));
+
+  console.log({payload});
+
   const handleIncreaseItem = (item: ItemProductsMenu) => {
-    setItems((prev) => {
+      setItems((prev) => {
       const exist = prev.find((it) => it.id === item.id);
+      let newItems;
       if (exist) {
-        return prev.map((it) =>
+        newItems = prev.map((it) =>
           it.id === item.id ? { ...it, qty: it.qty + 1 } : it
         );
+      } else {
+        newItems = [...prev, { id: item.id, name: item.name, qty: 1, price: item.price }];
       }
-      return [...prev, { id: item.id, name: item.name, qty: 1, price: item.price }];
+      
+      const log = newItems.map((it) => ({
+        cartId: customerNo,
+        productId: it.id,
+        quantity: it.qty,
+      }));
+      console.log(log);
+      return newItems;
     });
   };
 
@@ -105,7 +117,7 @@ export default function ProductsPage() {
   };
 
   useEffect(() => {
-    getAllcart().then((data) => {
+    getAllcartlastid().then((data) => {
       if (Array.isArray(data) && data.length > 0) {
         setCustomerNo(data[0].id);
       }
@@ -137,6 +149,11 @@ export default function ProductsPage() {
     setOffset((prev) => Math.max(0, prev - limit));
   };
 
+  const clearCustomer = () => {
+    setCustomerName("");
+    setCustomerNo(0);
+  };
+
   return (
     <div className="flex min-h-screen">
       
@@ -156,6 +173,7 @@ export default function ProductsPage() {
               setCustomerName={setCustomerName}
               setCustomerNo={setCustomerNo}
               clearItems={() => setItems([])}
+              clearCustomer={clearCustomer}
             />
 
           </div>
@@ -263,6 +281,7 @@ export default function ProductsPage() {
                   </div>
                 ))}
               </div>
+              {/* Pagination */}
               <div className="pt-6">
                 <Pagination>
                   <PaginationContent>
@@ -270,7 +289,7 @@ export default function ProductsPage() {
                       <PaginationPrevious href="#" onClick={handlePrev} />
                     </PaginationItem>
                     <PaginationItem>
-                      <PaginationLink href="#">{Math.floor(offset / limit) + 1}</PaginationLink>
+                      <PaginationLink href="#">{currentPage}</PaginationLink>
                     </PaginationItem>
                     <PaginationItem>
                       <PaginationEllipsis />

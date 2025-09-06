@@ -74,7 +74,7 @@ export async function getProducts(params: {
 
 // ---------------------------------------
 
-export const api_allcart = axios.create({
+export const api_allcartlastid = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
   withCredentials: true,
   headers: {
@@ -83,8 +83,8 @@ export const api_allcart = axios.create({
   timeout: 15000,
 });
 
-export async function getAllcart() {
-  const res = await api_allcart.get("api/cart");
+export async function getAllcartlastid() {
+  const res = await api_allcartlastid.get("api/cart");
   const data = res.data;
 
   // 1 id teratas
@@ -139,5 +139,45 @@ export async function createNewnameoncart(id: number, customerName: string) {
   });
   const data = res.data;
 
+  return data;
+}
+
+// ---------------------------------------
+
+export const api_addproductoncart = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 15000,
+});
+
+export async function addNewproductoncart(cartId: number, productId: number, quantity: number) {
+  const res = await api_addproductoncart.post(`api/cart-item`, {
+      cartId,
+      productId,
+      quantity,
+    }
+  );
+  const data = res.data;
+
+  return data;
+}
+
+// ---------------------------------------
+
+export const api_getallcart = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 15000,
+});
+
+export async function getAllcart() {
+  const res = await api_allcartlastid.get("api/cart");
+  const data = res.data;
   return data;
 }

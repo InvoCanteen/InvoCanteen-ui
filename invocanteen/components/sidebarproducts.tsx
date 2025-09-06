@@ -41,22 +41,17 @@ interface SidebarproductsProps {
   customerNo: number;
   setCustomerName: (name: string) => void;
   setCustomerNo: (no: number) => void;
-  clearItems: () => void; 
+  clearItems: () => void;
+  clearCustomer: () => void;
 }
-
-// const initialItems: ItemProductsSidebar[] = [
-//   { id: 1, name: "Hotdog", qty: 1, price: 10000 },
-//   { id: 2, name: "Coca Cola", qty: 2, price: 7000  },
-//   { id: 3, name: "Burger", qty: 1, price: 15000 },
-//   { id: 4, name: "Kebab", qty: 2, price: 8000  },
-//   { id: 5, name: "Meatballs", qty: 1, price: 15000 },
-//   { id: 6, name: "French Fries", qty: 2, price: 8000  },
-// ];
 
 import CardNewcustomer from "@/components/custom/cardnewcustomer";
 import CardNewpayment from "@/components/custom/cardnewpayment";
 import CardCancelorder from "@/components/custom/cardcancelorder";
 import CardDeletecustomer from "./custom/carddeletecustomer";
+
+import { addNewproductoncart } from "@/lib/api";
+import { toast } from "sonner";
 
 export default function Sidebarproducts({
   items,
@@ -66,6 +61,7 @@ export default function Sidebarproducts({
   setCustomerName,
   setCustomerNo,
   clearItems,
+  clearCustomer,
 }: SidebarproductsProps) {
 
     const [open, setOpen] = React.useState(false)
@@ -81,6 +77,10 @@ export default function Sidebarproducts({
     const serviceCharge = "10%"
     const priceGross = "550000"
 
+    useEffect(() => {
+            console.log({ customerName });
+        }, [customerName]);
+
     const updateQty = (id: number, qty: number) => {
         setItems((prev) =>
         prev.map((it) => (it.id === id ? { ...it, qty: Math.max(0, qty) } : it)).filter((it) => it.qty > 0)
@@ -92,6 +92,26 @@ export default function Sidebarproducts({
     };
 
     const total = items.reduce((sum, it) => sum + it.price * it.qty, 0);
+
+    const handleHold = async () => {
+        if (!items.length) {
+            toast.error("Cart tidak boleh kosong!");
+            return;
+        }
+        try {
+            for (const it of items) {
+            await addNewproductoncart(customerNo, it.id, it.qty);
+            }
+            toast.success("Cart berhasil di-hold!");
+            clearItems();
+            clearCustomer();
+            setTimeout(() => {
+                console.log({ customerName }); // ini akan log setelah state update
+            }, 0);
+        } catch (error) {
+            toast.error("Gagal hold cart!");
+        }
+    };
 
     return (
         <aside
@@ -343,7 +363,7 @@ export default function Sidebarproducts({
                             <span className="text-xs">Pay Now</span>
                         </button>
 
-                        <button className="btn-yellowbutton flex items-center justify-center gap-2 rounded h-8 w-20 text-xs mb-3">
+                        <button onClick={handleHold} className="btn-yellowbutton flex items-center justify-center gap-2 rounded h-8 w-20 text-xs mb-3">
                             <Hand className="h-4 w-4" />
                             <span className="text-xs">Hold</span>
                         </button>

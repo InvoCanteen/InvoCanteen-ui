@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react"
+import { useEffect, useState } from "react";
 
 import { X, Trash2, CreditCard, Printer, SquareArrowOutUpRight } from "lucide-react";
 
@@ -9,25 +10,33 @@ interface CardOnholdorderProps {
 }
 
 import CardNewpayment from "@/components/custom/cardnewpayment";
+import { getAllcart } from "@/lib/api";
 
-const onHoldOrders = [
-  { id: "123123191", price: 7000, items: 5, customer: "Walk in" },
-  { id: "2200302", price: 3000, items: 2, customer: "John" },
-  { id: "330030", price: 8500, items: 5, customer: "Walk in" },
-  { id: "8080993", price: 12000, items: 7, customer: "Walk in" },
-  { id: "2300203", price: 1500, items: 3, customer: "Walk in" },
-  { id: "33435523", price: 2500, items: 3, customer: "Walk in" },
-  { id: "2435763", price: 3000, items: 8, customer: "Walk in" },
-  { id: "78567456", price: 7000, items: 8, customer: "Walk in" },
-  { id: "6653325", price: 7000, items: 8, customer: "Walk in" },
-  { id: "23143535", price: 7000, items: 8, customer: "Walk in" },
-  { id: "98008967", price: 7000, items: 8, customer: "Walk in" },
-  { id: "23564783", price: 7000, items: 8, customer: "Walk in" },
-];
+// const onHoldOrders = [
+//   { id: "123123191", price: 7000, items: 5, customer: "Walk in" },
+//   { id: "2200302", price: 3000, items: 2, customer: "John" },
+//   { id: "330030", price: 8500, items: 5, customer: "Walk in" },
+//   { id: "8080993", price: 12000, items: 7, customer: "Walk in" },
+//   { id: "2300203", price: 1500, items: 3, customer: "Walk in" },
+//   { id: "33435523", price: 2500, items: 3, customer: "Walk in" },
+//   { id: "2435763", price: 3000, items: 8, customer: "Walk in" },
+//   { id: "78567456", price: 7000, items: 8, customer: "Walk in" },
+//   { id: "6653325", price: 7000, items: 8, customer: "Walk in" },
+//   { id: "23143535", price: 7000, items: 8, customer: "Walk in" },
+//   { id: "98008967", price: 7000, items: 8, customer: "Walk in" },
+//   { id: "23564783", price: 7000, items: 8, customer: "Walk in" },
+// ];
 
 export default function CardOnholdorder({ onClose }: CardOnholdorderProps) {
 
+    const [orders, setOrders] = useState<any[]>([]);
     const [showNewpayments, setNewpayments] = React.useState(false);
+
+    useEffect(() => {
+        getAllcart().then((data) => {
+            setOrders(data);
+        });
+    }, []);
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
@@ -50,7 +59,7 @@ export default function CardOnholdorder({ onClose }: CardOnholdorderProps) {
 
             {/* Grid card orders */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-h-[500px] overflow-y-auto">
-                {onHoldOrders.map((order) => (
+                {orders.map((order) => (
                     <div
                         key={order.id}
                         className="border rounded-lg p-3 shadow-sm flex flex-col justify-between text-sm"
@@ -63,9 +72,8 @@ export default function CardOnholdorder({ onClose }: CardOnholdorderProps) {
                                     {order.id}
                                 </span>
                                 </p>
-                                <p className="text-gray-600">Price : Rp. {order.price}</p>
-                                <p className="text-gray-600">Items : {order.items}</p>
-                                <p className="text-gray-600">Customer : {order.customer}</p>
+                                <p className="text-gray-600">Price : Rp. {order.total}</p>
+                                <p className="text-gray-600">Customer : {order.customerName}</p>
                             </div>
                             <div>
                                 <button className="flex items-center gap-1 text-white text-xs py-1 rounded justify-between">
