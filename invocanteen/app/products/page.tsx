@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils"
 
 import { Check, ChevronDown, Hand, UserRound, Plus, Minus } from "lucide-react"
 
+import { toast } from "sonner";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import {
@@ -116,6 +118,22 @@ export default function ProductsPage() {
     );
   };
 
+  const handleIncreaseItemWithValidation = (item: ItemProductsMenu) => {
+  if (!customerName) {
+    toast.error("Nama customer tidak boleh kosong!");
+    return;
+  }
+  handleIncreaseItem(item);
+};
+
+const handleDecreaseItemWithValidation = (item: ItemProductsMenu) => {
+  if (!customerName) {
+    toast.error("Nama customer tidak boleh kosong!");
+    return;
+  }
+  handleDecreaseItem(item);
+};
+
   useEffect(() => {
     getAllcartlastid().then((data) => {
       if (Array.isArray(data) && data.length > 0) {
@@ -154,6 +172,10 @@ export default function ProductsPage() {
     setCustomerNo(0);
   };
 
+  const total = items.reduce((sum, it) => sum + it.price * it.qty, 0);
+  const tax = total * 0.1;
+  const totalwithtax = total + tax;
+
   return (
     <div className="flex min-h-screen">
       
@@ -174,6 +196,7 @@ export default function ProductsPage() {
               setCustomerNo={setCustomerNo}
               clearItems={() => setItems([])}
               clearCustomer={clearCustomer}
+              totalwithtax={totalwithtax}
             />
 
           </div>
@@ -264,17 +287,17 @@ export default function ProductsPage() {
                     <img
                       src={item.imageProduct || "https://picsum.photos/200/200"}
                       alt={item.name}
-                      className="w-[90px] h-[90px] object-cover rounded"
+                      className="w-[80px] h-[80px] object-cover rounded"
                     />
                     <p className="font-medium">{item.name}</p>
                     <p className="text-sm" style={{ color: "var(--color-greenstandard)" }}>
                       Rp. {Number(item.price).toLocaleString("id-ID")}
                     </p>
-                    <div className="flex flex-row gap-4 pt-2">
-                      <Button onClick={() => handleDecreaseItem(item)} variant="outline" className="btn-greenbutton w-[30px] h-[30px]">
+                    <div className="flex flex-row gap-4">
+                      <Button onClick={() => handleDecreaseItemWithValidation(item)} variant="outline" className="btn-greenbutton w-[26px] h-[26px]">
                         <Minus />
                       </Button>
-                      <Button onClick={() => handleIncreaseItem(item)} variant="outline" className="btn-bluebutton w-[30px] h-[30px]">
+                      <Button onClick={() => handleIncreaseItemWithValidation(item)} variant="outline" className="btn-bluebutton w-[26px] h-[26px]">
                         <Plus className="w-[12px] h-[12px]" />
                       </Button>
                     </div>

@@ -19,6 +19,8 @@ import {
 
 type NavItem = { href: string; label: string; icon: React.ReactNode };
 
+import CardConfirmlogout from "@/components/custom/cardconfirmlogout"
+
 const navbarcontent: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: <LayoutDashboard size={20} /> },
   { href: "/products", label: "Products", icon: <ShoppingBasket size={20} /> },
@@ -30,6 +32,7 @@ const navbarcontent: NavItem[] = [
 export default function Navbar() {
 
   const [isOpen, setIsOpen] = useState(true);
+  const [showLogout, setShowLogout] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -96,12 +99,15 @@ export default function Navbar() {
 
       <div className="mt-auto">
         <button
-          onClick={() => router.push("/login")}
+          onClick={() => setShowLogout(true)}
           className="w-full rounded-lg pl-2 pb-2 pt-2 text-left text-sm btn-redbutton"
         >
           {isOpen ? "Logout" : <LogOut className="w-5 h-5" />}
         </button>
       </div>
+      {showLogout && (
+        <CardConfirmlogout onClose={() => setShowLogout(false)} />
+      )}
     </aside>
   );
 }

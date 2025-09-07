@@ -72,10 +72,11 @@ export default function Sidebarproducts({
     const [showCancelOrder, setCancelOrder] = React.useState(false);
     const [showDeleteCustomer, setDeleteCustomer] = React.useState(false);
 
-    const refId = "#12345"
+    const total = items.reduce((sum, it) => sum + it.price * it.qty, 0);
     const totalItem = items.reduce((sum, it) => sum + it.qty, 0);
     const serviceCharge = "10%"
-    const priceGross = "550000"
+    const tax = total * 0.1;
+    const totalwithtax = total + tax;
 
     useEffect(() => {
             console.log({ customerName });
@@ -90,8 +91,6 @@ export default function Sidebarproducts({
     const removeItem = (id: number) => {
         setItems((prev) => prev.filter((it) => it.id !== id));
     };
-
-    const total = items.reduce((sum, it) => sum + it.price * it.qty, 0);
 
     const handleHold = async () => {
         if (!items.length) {
@@ -205,11 +204,6 @@ export default function Sidebarproducts({
 
                         <div className="flex flex-col gap-4">
 
-                            <p className="text-m">
-                                <span className="text-black">Reference :</span>{" "}
-                                <span className="text-blue-500">{refId}</span>
-                            </p>
-
                             {customerName && (
                                 <p className="text-m -mt-2">
                                     <span className="text-black">Name :</span>{" "}
@@ -224,12 +218,14 @@ export default function Sidebarproducts({
                             )}
 
                         </div>
-
-                        <div className="flex flex-col ">
-                            <button onClick={() => setDeleteCustomer(true)}>
-                                <Trash2 className="h-6 w-6 cursor-pointer icon-redbutton" />
-                            </button>
-                        </div>
+                        
+                        {customerName && (
+                            <div className="flex flex-col ">
+                                <button onClick={() => setDeleteCustomer(true)}>
+                                    <Trash2 className="h-6 w-6 cursor-pointer icon-redbutton" />
+                                </button>
+                            </div>
+                        )}
                     </div>
 
 
@@ -339,7 +335,7 @@ export default function Sidebarproducts({
                             <p className="text-xs" style={{
                                         color:"var(--color-blackclear)"
                                     }}>
-                                Gross Price : Rp. {priceGross}
+                                Gross Price : Rp. {total}
                             </p>
                         </div>
 
@@ -350,7 +346,7 @@ export default function Sidebarproducts({
                                     }}>
                             <div className="space-x-2">
                                 <span>Total:</span>
-                                <span className="font-semibold">Rp. {total}</span>
+                                <span className="font-semibold">Rp. {totalwithtax}</span>
                             </div>
                         </div>
                     </div>
@@ -386,7 +382,7 @@ export default function Sidebarproducts({
                     clearItems={() => setItems([])}
                 />
             )}
-            {showNewpayments && <CardNewpayment onClose={() => setNewpayments(false)} />}
+            {showNewpayments && <CardNewpayment onClose={() => setNewpayments(false)} totalwithtax={totalwithtax}/>}
             {showDeleteCustomer && <CardDeletecustomer onClose={() => setDeleteCustomer(false)} />}
             {showCancelOrder && (<CardCancelorder onClose={() => setCancelOrder(false)} clearItems={() => setItems([])}/>)}
         </aside>

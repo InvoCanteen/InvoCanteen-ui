@@ -34,15 +34,16 @@ const invoices = [
 
 interface CardPaymentProps {
   onClose: () => void;
+  totalwithtax: number;
 }
 
-export default function CardNewpayment({ onClose }: CardPaymentProps) {
+export default function CardNewpayment({ onClose, totalwithtax }: CardPaymentProps) {
   
   const [showPrintreceipt, setPrintreceipt] = React.useState(false);
 
-  const [tendered, setTendered] = useState<number>(60000);
-  const total = 54000;
-  const change = Math.max(0, tendered - total);
+  const [tendered, setTendered] = useState<string>("");
+
+  const change = Math.max(0, Number(tendered || "0") - totalwithtax);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50">
@@ -85,11 +86,12 @@ export default function CardNewpayment({ onClose }: CardPaymentProps) {
               <div className="w-40 px-3 py-4 font-medium" 
                 style={{ 
                 color:"var(--color-blackclear)"
-                }}>Total Price :</div>
+                }}>Total Price :
+              </div>
               <div className="flex-1 px-3 py-2 w-56">
                 <Input
                   readOnly
-                  value={"Rp. " + total}
+                  value={"Rp. " + totalwithtax}
                   className=""
                   style={{ 
                     color:"var(--color-blackclear)",
@@ -112,7 +114,7 @@ export default function CardNewpayment({ onClose }: CardPaymentProps) {
                 <Input
                   type="number"
                   value={tendered}
-                  onChange={(e) => setTendered(Number(e.target.value))}
+                  onChange={(e) => setTendered(e.target.value.replace(/^0+(?=\d)/, ""))}
                   className=""
                   style={{ 
                     color:"var(--color-blackclear)",
@@ -133,7 +135,7 @@ export default function CardNewpayment({ onClose }: CardPaymentProps) {
               <div className="flex-1 px-3 py-2 w-56">
                 <Input
                   readOnly
-                  value={"Rp. " + total}
+                  value={"Rp. " + change}
                   className=""
                   style={{ 
                     color:"var(--color-blackclear)",
