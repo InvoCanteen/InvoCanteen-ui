@@ -5,38 +5,71 @@ import { useEffect, useState } from "react";
 
 import { X, Trash2, CreditCard, Printer, SquareArrowOutUpRight } from "lucide-react";
 
+import { deleteCartbyid } from "@/lib/api";
+import { toast } from "sonner";
+
+
 interface CardOnholdorderProps {
   onClose: () => void;
+  clearCustomer: () => void;
+  setItems: (items: ItemProductsSidebar[]) => void;
+  setCustomerName: (name: string) => void;
+  setCustomerNo: (no: number) => void;
 }
 
 import CardNewpayment from "@/components/custom/cardnewpayment";
-import { getAllcart } from "@/lib/api";
+import { getAllcart, getCartbyid } from "@/lib/api";
+import { ItemProductsSidebar } from "@/types/product";
 
-// const onHoldOrders = [
-//   { id: "123123191", price: 7000, items: 5, customer: "Walk in" },
-//   { id: "2200302", price: 3000, items: 2, customer: "John" },
-//   { id: "330030", price: 8500, items: 5, customer: "Walk in" },
-//   { id: "8080993", price: 12000, items: 7, customer: "Walk in" },
-//   { id: "2300203", price: 1500, items: 3, customer: "Walk in" },
-//   { id: "33435523", price: 2500, items: 3, customer: "Walk in" },
-//   { id: "2435763", price: 3000, items: 8, customer: "Walk in" },
-//   { id: "78567456", price: 7000, items: 8, customer: "Walk in" },
-//   { id: "6653325", price: 7000, items: 8, customer: "Walk in" },
-//   { id: "23143535", price: 7000, items: 8, customer: "Walk in" },
-//   { id: "98008967", price: 7000, items: 8, customer: "Walk in" },
-//   { id: "23564783", price: 7000, items: 8, customer: "Walk in" },
-// ];
-
-export default function CardOnholdorder({ onClose }: CardOnholdorderProps) {
+export default function CardOnholdorder({ onClose, clearCustomer, setItems, setCustomerName, setCustomerNo }: CardOnholdorderProps) {
 
     const [orders, setOrders] = useState<any[]>([]);
-    const [showNewpayments, setNewpayments] = React.useState(false);
+
+    // const [showNewpayments, setNewpayments] = React.useState(false);
 
     useEffect(() => {
         getAllcart().then((data) => {
             setOrders(data);
         });
     }, []);
+
+    const handleDelete = async (orderId: number) => {
+        try {
+            const res = await deleteCartbyid(orderId);
+            console.log("customerNo:", orderId);
+            if (res?.success) {
+            toast.success("Customer dan order berhasil dihapus!");
+            clearCustomer();
+            onClose();
+            } else {
+            toast.error("Gagal menghapus customer!");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Gagal menghapus customer!");
+        }
+    };
+
+    const handleEdit = async (orderId: number) => {
+        try {
+            const cart = await getCartbyid(orderId);
+            const newItems = cart.items.map((item: any) => ({
+            id: item.productId,
+            name: item.product?.name ?? "",
+            qty: item.quantity,
+            price: Number(item.product?.price ?? item.price),
+            imageProduct: item.product?.imageProduct,
+            }));
+            setItems(newItems);
+            setCustomerName(cart.customerName);
+            setCustomerNo(cart.id); 
+            onClose();
+            toast.success("Order berhasil dimunculkan di sidebar!");
+        } catch (error) {
+            toast.error("Gagal mengambil data cart!");
+            console.error(error);
+        }
+    };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
@@ -67,7 +100,7 @@ export default function CardOnholdorder({ onClose }: CardOnholdorderProps) {
                         <div className="mb-2 flex items-start justify-between">
                             <div className="flex flex-col">
                                 <p className="text-gray-600">
-                                Ref #:{" "}
+                                Ref #{""}
                                 <span className="text-blue-600 font-semibold">
                                     {order.id}
                                 </span>
@@ -75,32 +108,26 @@ export default function CardOnholdorder({ onClose }: CardOnholdorderProps) {
                                 <p className="text-gray-600">Price : Rp. {order.total}</p>
                                 <p className="text-gray-600">Customer : {order.customerName}</p>
                             </div>
-                            <div>
-                                <button className="flex items-center gap-1 text-white text-xs py-1 rounded justify-between">
-                                <SquareArrowOutUpRight className="text-yellow-500" size={14} />
-                            </button>
-                            </div>
                         </div>
 
                         {/* Actions */}
                         <div className="flex gap-2 mt-auto">
-                            <button className="flex-[1] flex items-center justify-center gap-1 bg-red-500 text-white text-xs py-1 rounded hover:bg-red-600">
+                            <button
+                                onClick={() => handleDelete(order.id)}
+                                className="flex-[1] flex items-center justify-center gap-1 bg-red-500 text-white text-xs py-1 rounded hover:bg-red-600"
+                            >
                                 <Trash2 size={14} />
-                            </button>
-
-                            <button className="flex-[1] flex items-center justify-center gap-1 bg-blue-500 text-white text-xs py-1 rounded hover:bg-blue-600">
-                                <Printer size={14} />
-                            </button>
+                        </button>
                             
-                            <button onClick={() => setNewpayments(true)} className="flex-[3] flex items-center justify-center gap-1 bg-green-500 text-white text-xs py-1 rounded hover:bg-green-600">
-                                <CreditCard size={14} /> Pay Now
+                            <button onClick={() => handleEdit(order.id)} className="flex-[3] flex items-center justify-center gap-1 btn-bluebutton text-white text-xs py-1 rounded ">
+                                <CreditCard size={14} /> Edit Order
                             </button>
                         </div>
                     </div>
                 ))}
             </div>
         </div>
-        {showNewpayments && <CardNewpayment onClose={() => setNewpayments(false)} />}
+        {/* {showNewpayments && <CardNewpayment onClose={() => setNewpayments(false)} />} */}
     </div>
   );
 }

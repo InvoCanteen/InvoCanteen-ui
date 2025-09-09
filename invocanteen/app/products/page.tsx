@@ -68,7 +68,6 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<ItemProductsMenu[]>([]);
   const [items, setItems] = useState<ItemProductsSidebar[]>([]);
 
-  const [customerName, setCustomerName] = useState("");
   const [customerNo, setCustomerNo] = useState(1);
 
   const [offset, setOffset] = useState(0);
@@ -172,9 +171,18 @@ const handleDecreaseItemWithValidation = (item: ItemProductsMenu) => {
     setCustomerNo(0);
   };
 
-  const total = items.reduce((sum, it) => sum + it.price * it.qty, 0);
-  const tax = total * 0.1;
-  const totalwithtax = total + tax;
+  const [totalwithtax, setTotalwithtax] = useState(0);
+  const [customerName, setCustomerName] = useState("");
+
+  // const total = items.reduce((sum, it) => sum + it.price * it.qty, 0);
+  // const tax = total * 0.1;
+  // const totalwithtax = total + tax;
+
+  useEffect(() => {
+    const total = items.reduce((sum, it) => sum + it.price * it.qty, 0);
+    const tax = total * 0.1;
+    setTotalwithtax(total + tax);
+  }, [items]);
 
   return (
     <div className="flex min-h-screen">
@@ -182,7 +190,7 @@ const handleDecreaseItemWithValidation = (item: ItemProductsMenu) => {
       <Navbar />
 
       <main className="flex-1 pl-[var(--sidebar-w)] transition-[padding] duration-200">
-        <Toaster position="top-center" richColors />
+        <Toaster position="top-right" richColors />
         <div className="flex-1 flex flex-row">
           
           <div className="flex flex-col">
@@ -191,8 +199,8 @@ const handleDecreaseItemWithValidation = (item: ItemProductsMenu) => {
               items={items}
               setItems={setItems}
               customerName={customerName}
-              customerNo={customerNo}
               setCustomerName={setCustomerName}
+              customerNo={customerNo}
               setCustomerNo={setCustomerNo}
               clearItems={() => setItems([])}
               clearCustomer={clearCustomer}
@@ -269,11 +277,11 @@ const handleDecreaseItemWithValidation = (item: ItemProductsMenu) => {
                   <Hand />
                   On Hold Orders
                 </Button>
-                <Button onClick={() => setCardCustomerorder(true)}
+                {/* <Button onClick={() => setCardCustomerorder(true)}
                  variant="outline" className="btn-greenbutton">
                   <UserRound />
                   Unpaid Orders
-                </Button>
+                </Button> */}
               </div>
             </div>
             
@@ -326,7 +334,7 @@ const handleDecreaseItemWithValidation = (item: ItemProductsMenu) => {
             </div>
 
           </div>
-          {showCardOnholdorder && <CardOnholdorder onClose={() => setCardOnholdorder(false)} />}
+          {showCardOnholdorder && <CardOnholdorder onClose={() => setCardOnholdorder(false)} clearCustomer={clearCustomer} setItems={setItems} setCustomerName={setCustomerName} setCustomerNo={setCustomerNo}/>}
           {showCardCustomerorder && <CardCustomerorder onClose={() => setCardCustomerorder(false)} 
             setCustomerName={setCustomerName}
             customerNo={customerNo}

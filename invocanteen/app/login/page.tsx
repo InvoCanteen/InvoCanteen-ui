@@ -71,7 +71,7 @@ export default function Login() {
     return (
         <div className="font-sans">
 
-            <Toaster position="top-left" richColors/>
+            <Toaster position="top-right" richColors/>
            
             <main className="flex items-center justify-center min-h-screen">
                 
@@ -89,16 +89,6 @@ export default function Login() {
                     </div>
 
                     <div className="flex flex-row">
-
-                        <div className="hidden md:flex flex-col justify-center">
-                            <Card className="p-13">
-                                <Lottie 
-                                    animationData={invoicelottie} 
-                                    loop={true}
-                                    style={{ width: 215, height: 215 }}
-                                />
-                            </Card>
-                        </div>
 
                         <div className="flex flex-col w-[400px]">
 
@@ -133,7 +123,7 @@ export default function Login() {
                                         {loading ? "Loading..." : "Login"}
                                         </button>
 
-                                        <p className="text-sm text-center">
+                                        {/* <p className="text-sm text-center">
                                         Dont have an account?{" "}
                                         <Link
                                             href="/register"
@@ -144,7 +134,7 @@ export default function Login() {
                                         >
                                             Register
                                         </Link>
-                                        </p>
+                                        </p> */}
                                     </form>
                                 </CardContent>
 

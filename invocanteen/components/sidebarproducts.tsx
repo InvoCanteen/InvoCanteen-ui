@@ -43,6 +43,7 @@ interface SidebarproductsProps {
   setCustomerNo: (no: number) => void;
   clearItems: () => void;
   clearCustomer: () => void;
+  totalwithtax: number;
 }
 
 import CardNewcustomer from "@/components/custom/cardnewcustomer";
@@ -105,10 +106,22 @@ export default function Sidebarproducts({
             clearItems();
             clearCustomer();
             setTimeout(() => {
-                console.log({ customerName }); // ini akan log setelah state update
+                console.log({ customerName });
             }, 0);
         } catch (error) {
             toast.error("Gagal hold cart!");
+        }
+    };
+
+    const handlePaynow = async () => {
+        if (!items.length) {
+            toast.error("Cart tidak boleh kosong!");
+            return;
+        }
+        try {
+            setNewpayments(true);
+        } catch (error) {
+            toast.error("Gagal payment!");
         }
     };
 
@@ -189,16 +202,6 @@ export default function Sidebarproducts({
 
                     </div>
 
-                    <div className="flex flex-row gap-2 -mt-2">
-                        <Input
-                            placeholder="Search products..."
-                        />
-
-                        <button className="btn-bluebutton rounded p-1">
-                            <Search className="h-4 w-8" />
-                        </button>
-
-                    </div>
 
                     <div className="flex flex-row items-start justify-between px-2">
 
@@ -353,9 +356,9 @@ export default function Sidebarproducts({
 
                     {/* Kanan */}
                     <div className="flex flex-col p-2">
-                        <button onClick={() => setNewpayments(true)}
+                        <button
+                            onClick={handlePaynow}
                             className="btn-greenbutton flex items-center justify-center gap-2 rounded h-8 w-20 text-xs mb-3">
-                            <Banknote className="h-4 w-4" />
                             <span className="text-xs">Pay Now</span>
                         </button>
 
@@ -382,8 +385,8 @@ export default function Sidebarproducts({
                     clearItems={() => setItems([])}
                 />
             )}
-            {showNewpayments && <CardNewpayment onClose={() => setNewpayments(false)} totalwithtax={totalwithtax}/>}
-            {showDeleteCustomer && <CardDeletecustomer onClose={() => setDeleteCustomer(false)} />}
+            {showNewpayments && <CardNewpayment onClose={() => setNewpayments(false)} totalwithtax={totalwithtax} customername={customerName} customerNo={customerNo} items={items}/>}
+            {showDeleteCustomer && <CardDeletecustomer onClose={() => setDeleteCustomer(false)} customerNo={customerNo} clearCustomer={clearCustomer} clearItems={() => setItems([])}/>}
             {showCancelOrder && (<CardCancelorder onClose={() => setCancelOrder(false)} clearItems={() => setItems([])}/>)}
         </aside>
     );

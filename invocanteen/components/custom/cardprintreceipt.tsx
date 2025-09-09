@@ -11,13 +11,23 @@ import CardPreviewinvoice from "./cardpreviewinvoice";
 
 interface CardPrintreceiptProps {
   onClose: () => void;
+  order: { id: number };
+  customername: string;
+  customerNo: number;
+  change: number;
+  totalwithtax: number;
+  tendered: number;
+  idparamsinvoice: number | null;
+  clearItems: () => void;
+  clearCustomer: () => void;
+  clearCustomerno: () => void;
 }
 
-interface CardPreviewinvoiceProps {
-  onClose: () => void;
-}
+// interface CardPreviewinvoiceProps {
+//   onClose: () => void;
+// }
 
-export default function CardPrintreceipt({ onClose }: CardPrintreceiptProps) {
+export default function CardPrintreceipt({ onClose, order, totalwithtax, customername, customerNo, change, tendered, idparamsinvoice }: CardPrintreceiptProps) {
 
   const [showPreviewinvoice, setPreviewinvoice] = React.useState(false);
 
@@ -60,14 +70,27 @@ export default function CardPrintreceipt({ onClose }: CardPrintreceiptProps) {
             Cancel
           </button>
           <button
-            onClick={() => setPreviewinvoice(true)}
+            onClick={() => {
+              window.open(`/invoice/print/${idparamsinvoice}`, "_blank");
+              if (typeof onCloseAll === "function") onCloseAll();
+              clearItems();
+              clearCustomer();
+              clearCustomerno();
+            }}
             className="btn-redbutton w-full px-4 py-2 text-sm border rounded-xl"
           >
             Print
           </button>
         </div>
       </div>
-      {showPreviewinvoice && <CardPreviewinvoice onClose={() => setPreviewinvoice(false)} />}
+      {showPreviewinvoice && <CardPreviewinvoice
+        onClose={() => setPreviewinvoice(false)}
+        totalwithtax={totalwithtax}
+        customername={customername}
+        customerNo={customerNo}
+        change={change}
+        tendered={tendered}
+      />}
     </div>
   );
 }

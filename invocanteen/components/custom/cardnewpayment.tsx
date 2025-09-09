@@ -4,10 +4,12 @@ import * as React from "react"
 
 import { X } from "lucide-react";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+
+import { toast } from "sonner";
 
 import {
   Table,
@@ -22,28 +24,95 @@ import {
 
 import CardPrintreceipt from "./cardprintreceipt";
 
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  }
-]
-
+import { addConfirmorder, addNewproductoncart } from "@/lib/api";
 
 interface CardPaymentProps {
   onClose: () => void;
   totalwithtax: number;
+  customername: string;
+  customerNo: number;
+  cartId: number;
+  items: { id: number; qty: number }[];
+  clearItems: () => void;
+  clearCustomer: () => void;
 }
 
-export default function CardNewpayment({ onClose, totalwithtax }: CardPaymentProps) {
+export default function CardNewpayment({ onClose, totalwithtax, customername, customerNo,items, clearItems, clearCustomer }: CardPaymentProps) {
   
   const [showPrintreceipt, setPrintreceipt] = React.useState(false);
 
   const [tendered, setTendered] = useState<string>("");
 
-  const change = Math.max(0, Number(tendered || "0") - totalwithtax);
+  const [idparamsinvoice, setIdparamsinvoice] = useState<number | null>(null);
+
+  const cartId = customerNo;
+
+  // const change = Math.max(0, Number(tendered || "0") - totalwithtax);
+  const [change, setChange] = useState(0);
+
+  useEffect(() => {
+    setChange(Math.max(0, Number(tendered || "0") - totalwithtax));
+  }, [tendered, totalwithtax]);
+
+  function formatIDR(n: number | string) {
+    return Number(n).toLocaleString("id-ID");
+  }
+
+  const addtocart = async () => {
+
+    console.log("Isi items :", items);
+
+    if (!items.length) {
+      toast.error("Cart tidak boleh kosong!");
+      return;
+    }
+    try {
+      for (const it of items) {
+        await addNewproductoncart(customerNo, it.id, it.qty);
+      }
+      toast.success("Cart berhasil di-hold!");
+      clearItems();
+      clearCustomer();
+      setTimeout(() => {
+        console.log({ customerName });
+      }, 0);
+    } catch (error) {
+    }
+  };
+
+  const handleConfirmPayment = async () => {
+    if (Number(tendered) < totalwithtax) {
+      toast.error("Nilai harus lebih tinggi dari TotalPrice");
+      return;
+    }
+    try {
+      const body = { cartId };
+      console.log("Body yang dikirim ke API:", body);
+      console.log("customerNo yang dikirim ke API:", cartId);
+      const res = await addConfirmorder(cartId);
+      if (res?.success) {
+        setIdparamsinvoice(res.data.id);
+        toast.success("Order berhasil dikonfirmasi!");
+        setPrintreceipt(true);
+      } else {
+        toast.error("Gagal konfirmasi order 1!");
+      }
+    } catch (error) {
+      toast.error("Gagal konfirmasi order 2!");
+    }
+  };
+
+  const handlePaymentProcess = async () => {
+    console.log("Isi items :", items);
+    if (!items.length) {
+      toast.error("Item kosong!");
+      await addtocart();
+      await handleConfirmPayment();
+    } else {
+      await addtocart();
+      await handleConfirmPayment();
+    }
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50">
@@ -91,7 +160,7 @@ export default function CardNewpayment({ onClose, totalwithtax }: CardPaymentPro
               <div className="flex-1 px-3 py-2 w-56">
                 <Input
                   readOnly
-                  value={"Rp. " + totalwithtax}
+                  value={"Rp " + formatIDR(totalwithtax)}
                   className=""
                   style={{ 
                     color:"var(--color-blackclear)",
@@ -112,13 +181,19 @@ export default function CardNewpayment({ onClose, totalwithtax }: CardPaymentPro
                 }}>Cash Tendered :</div>
               <div className="flex-1 px-3 py-2 w-56">
                 <Input
-                  type="number"
-                  value={tendered}
-                  onChange={(e) => setTendered(e.target.value.replace(/^0+(?=\d)/, ""))}
+                  type="text"
+                  value={tendered ? formatIDR(Number(tendered)) : ""}
+                  onChange={(e) => {
+                    const raw = e.target.value.replace(/\D/g, ""); 
+                    const cleaned = raw.replace(/^0+(?=\d)/, "");
+                    setTendered(cleaned);
+                  }}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   className=""
-                  style={{ 
-                    color:"var(--color-blackclear)",
-                    backgroundColor: "var(--color-whiteclear)"
+                  style={{
+                    color: "var(--color-blackclear)",
+                    backgroundColor: "var(--color-whiteclear)",
                   }}
                 />
               </div>
@@ -135,7 +210,7 @@ export default function CardNewpayment({ onClose, totalwithtax }: CardPaymentPro
               <div className="flex-1 px-3 py-2 w-56">
                 <Input
                   readOnly
-                  value={"Rp. " + change}
+                  value={"Rp. " + formatIDR(change)}
                   className=""
                   style={{ 
                     color:"var(--color-blackclear)",
@@ -151,14 +226,23 @@ export default function CardNewpayment({ onClose, totalwithtax }: CardPaymentPro
 
         <div className="mt-4 w-full">
           <button
-            onClick={() => setPrintreceipt(true)}
+            onClick={handlePaymentProcess}
             className="btn-bluebutton w-full px-4 py-2 text-sm border rounded-full"
           >
             Confirm Payment
           </button>
         </div>
       </div>
-      {showPrintreceipt && <CardPrintreceipt onClose={() => setPrintreceipt(false)} />}
+      {showPrintreceipt && <CardPrintreceipt
+        onClose={() => setPrintreceipt(false)}
+        order={{ id: customerNo }}
+        totalwithtax={totalwithtax}
+        customername={customername}
+        customerNo={customerNo}
+        change={change}
+        tendered={Number(tendered)}
+        idparamsinvoice={idparamsinvoice}
+      />}
     </div>
   );
 }

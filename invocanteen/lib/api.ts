@@ -74,6 +74,25 @@ export async function getProducts(params: {
 
 // ---------------------------------------
 
+export const api_productall = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 15000,
+});
+
+export async function getProductsall() {
+  const res = await api_productall.get(
+    "/api/product/get"
+  );
+  return res.data;
+}
+
+
+// ---------------------------------------
+
 export const api_allcartlastid = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
   withCredentials: true,
@@ -178,6 +197,116 @@ export const api_getallcart = axios.create({
 
 export async function getAllcart() {
   const res = await api_allcartlastid.get("api/cart");
+  const data = res.data;
+  return data;
+}
+
+// ---------------------------------------
+
+export const api_getallunpaidcart = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 15000,
+});
+
+export async function getAllunpaidcart() {
+  const res = await api_getallunpaidcart.get("api/unpaid-orders");
+  const data = res.data;
+  return data;
+}
+
+// ---------------------------------------
+
+export const api_getallpaidcart = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 15000,
+});
+
+export async function getAllpaidcart() {
+  const res = await api_getallpaidcart.get("api/paid-orders");
+  const data = res.data;
+  return data;
+}
+
+// ---------------------------------------
+
+export const api_getcartbyid = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 15000,
+});
+
+export async function getCartbyid(customerNo: number) {
+  const res = await api_getcartbyid.get(`api/cart/${customerNo}`);
+  const data = res.data;
+  return data;
+}
+
+// ---------------------------------------
+
+export const api_deletecartbyid = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 15000,
+});
+
+export async function deleteCartbyid(customerNo: number) {
+  const res = await api_deletecartbyid.delete(`api/cart/${customerNo}`);
+  console.log ("link : ", res);
+  const data = res.data;
+  return data;
+}
+
+// ---------------------------------------
+
+export const api_confirmorder = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 15000,
+});
+
+export async function addConfirmorder(cartId: number) {
+  const payload = { cartId };
+  console.log("Body yang dikirim ke API:", payload);
+
+  const res = await api_confirmorder.post(
+    "api/orders/from-cart",
+    payload
+  );
+
+  console.log("Response:", res.status, res.data);
+  return res.data;
+}
+
+// ---------------------------------------
+
+export const api_getorderbyid = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_API,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 15000,
+});
+
+export async function getOrderbyid(invoiceId: number) {
+  const res = await api_getorderbyid.get(`api/orders/${invoiceId}`);
   const data = res.data;
   return data;
 }

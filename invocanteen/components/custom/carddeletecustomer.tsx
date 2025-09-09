@@ -2,14 +2,41 @@
 
 import { X } from "lucide-react";
 
+import { deleteCartbyid } from "@/lib/api";
+
+import { toast } from "sonner";
+
 import Lottie  from "lottie-react";
 import warninglottie from "@/app/src/lottie/warning-lottie2.json";
 
 interface CardDeletecustomerProps {
   onClose: () => void;
+  customerNo: number;
+  clearCustomer: () => void;
+  clearItems: () => void;
 }
 
-export default function CardDeletecustomer({ onClose }: CardDeletecustomerProps) {
+export default function CardDeletecustomer({ onClose, customerNo, clearCustomer, clearItems }: CardDeletecustomerProps) {
+  const handleDelete = async () => {
+    try {
+      const res = await deleteCartbyid(customerNo);
+      console.log("customerNo:", customerNo);
+      if (res?.success) {
+        toast.success("Customer dan order berhasil dihapus!");
+        clearCustomer();
+        clearItems();
+        onClose();
+      } else {
+        console.log("aaaaaaaaaaaaaa");
+        toast.error("Gagal menghapus customer!");
+      }
+    } catch (error) {
+      console.log("bbbbbbbbbbbbbbb");
+      console.error(error); 
+      toast.error("Gagal menghapus customer!");
+    }
+  };
+  
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-[400px] relative">
@@ -59,7 +86,7 @@ export default function CardDeletecustomer({ onClose }: CardDeletecustomerProps)
             Cancel
           </button>
           <button
-            onClick={onClose}
+            onClick={handleDelete}
             className="btn-redbutton w-full px-4 py-2 text-sm border rounded-xl"
           >
             Yes
