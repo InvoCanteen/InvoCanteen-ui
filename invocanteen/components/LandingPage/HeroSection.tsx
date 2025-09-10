@@ -9,15 +9,15 @@ const HeroSection = () => {
                 <div className="text-center lg:text-left space-y-8">
                     <div className="space-y-4">
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                            <span className="text-foreground">Kasir Pintar untuk</span>
+                            <span className="text-foreground">Smart Cashier for</span>
                             <br />
                             <span className="bg-gradient-primary bg-clip-text text-blue-500">
-                                Kantin Modern
+                                Modern Canteen
                             </span>
                         </h1>
                         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0">
-                            Kelola transaksi kantin dengan mudah, cepat, dan akurat.
-                            Solusi kasir digital yang dirancang khusus untuk kebutuhan kantin modern.
+                            Manage canteen transactions easily, quickly, and accurately.
+                            A digital cashier solution specially designed for the needs of a modern canteen.
                         </p>
                     </div>
 
@@ -28,7 +28,7 @@ const HeroSection = () => {
                             </Button>
                         </a>
                         <Button variant="outline" size="lg" className="text-base">
-                            Pelajari Lebih Lanjut
+                            Learn More
                         </Button>
                     </div>
                 </div>
@@ -38,7 +38,7 @@ const HeroSection = () => {
                     <div className="relative bg-card rounded-2xl shadow-soft overflow-hidden">
                         <img
                             src={heroIllustration.src}
-                            alt="Kasir Kantin Modern"
+                            alt="Modern Canteen Cashier"
                             className="w-full h-auto object-cover"
                         />
                     </div>

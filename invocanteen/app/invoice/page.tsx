@@ -64,21 +64,21 @@ export default function InvoicePage() {
       <main className="pl-[var(--sidebar-w)] transition-[padding] duration-200 w-full">
         <div className="max-w-6xl mx-auto px-4 py-2">
 
-        <div className="flex flex-row justify-between mb-2">
-          <div className="mb-2">
-            <h1 className="text-2xl font-bold">Invoice</h1>
-            <p className="text-sm text-gray-600">
-              Kelola dan pantau status invoice kamu di sini.
-            </p>
+          <div className="flex flex-row justify-between mb-2">
+            <div className="mb-2">
+              <h1 className="text-2xl font-bold">Invoice</h1>
+              <p className="text-sm text-gray-600">
+                Manage and monitor your invoice status here.
+              </p>
+            </div>
+
+            <Badge
+              variant="secondary"
+              className="rounded-full w-8 h-8 mt-4 flex items-center justify-center p-4">
+              {paid.length}
+            </Badge>
+
           </div>
-
-          <Badge
-            variant="secondary"
-            className="rounded-full w-8 h-8 mt-4 flex items-center justify-center p-4">
-            {paid.length}
-          </Badge>
-
-        </div>
 
 
 

@@ -38,17 +38,17 @@ type StatsResponse = {
   data: ProductSales[];
 };
 
-// Dummy generator produk
+// Dummy product generator
 function generateDummyData(
   type: "daily" | "monthly" | "yearly"
 ): StatsResponse {
   const products = [
-    "Nasi Goreng",
-    "Ayam Bakar",
-    "Mie Goreng",
-    "Sate Ayam",
-    "Es Teh",
-    "Kopi Hitam",
+    "Fried Rice",
+    "Grilled Chicken",
+    "Fried Noodles",
+    "Chicken Satay",
+    "Iced Tea",
+    "Black Coffee",
   ];
 
   const sales: ProductSales[] = products.map((p, idx) => ({
@@ -101,7 +101,7 @@ export default function DashboardPage() {
       },
       title: {
         display: true,
-        text: `Statistik (${stats.type.toUpperCase()})`,
+        text: `Statistics (${stats.type.toUpperCase()})`,
         font: { size: 12 },
       },
     },
@@ -111,7 +111,7 @@ export default function DashboardPage() {
     },
   };
 
-  // tampilkan periode sesuai tipe
+  // display period according to type
   const getPeriodLabel = (stats: StatsResponse) => {
     if (stats.type === "daily") return stats.date;
     if (stats.type === "monthly") return stats.month;
@@ -127,20 +127,19 @@ export default function DashboardPage() {
         <div className="px-6 py-4 ">
           <h1 className="text-xl font-bold">Dashboard</h1>
           <p className="text-[14px] text-gray-600 mb-2">
-            Statistik penjualan produk
+            Product sales statistics
           </p>
 
           {/* Filter Buttons */}
-          <div className="flex gap-1 mb-2 hover:-scale-y-110">
+          <div className="flex gap-1 mb-2 ">
             {["daily", "monthly", "yearly"].map((t) => (
               <button
                 key={t}
                 onClick={() => setType(t as any)}
-                className={`px-2 py-1 rounded-md border text-[11px] font-medium capitalize transition ${
-                  type === t
-                    ? "bg-blue-600 text-white border-blue-600"
-                    : "bg-white hover:bg-gray-100"
-                }`}
+                className={`px-2 py-1 rounded-md border text-[11px] font-medium capitalize transition ${type === t
+                  ? "bg-blue-600 text-white border-blue-600"
+                  : "bg-white hover:bg-gray-100"
+                  }`}
               >
                 {t}
               </button>
@@ -150,21 +149,21 @@ export default function DashboardPage() {
           {/* Summary Cards */}
           <div className="grid grid-cols-3 gap-2 mb-2">
             <div className="bg-white p-2 rounded-md shadow text-center">
-              <p className="text-gray-500 text-[10px]">Total Terjual</p>
+              <p className="text-gray-500 text-[10px]">Total Sold</p>
               <h2 className="text-sm font-semibold">{stats.count} pcs</h2>
             </div>
             <div className="bg-white p-2 rounded-md shadow text-center">
-              <p className="text-gray-500 text-[10px]">Jumlah Produk</p>
+              <p className="text-gray-500 text-[10px]">Number of Products</p>
               <h2 className="text-sm font-semibold">{stats.data.length}</h2>
             </div>
             <div className="bg-white p-2 rounded-md shadow text-center">
-              <p className="text-gray-500 text-[10px]">Periode</p>
+              <p className="text-gray-500 text-[10px]">Period</p>
               <h2 className="text-sm font-semibold">{getPeriodLabel(stats)}</h2>
             </div>
           </div>
 
           {/* Chart */}
-          <div className="bg-white p-3 rounded-md shadow w-full h-140">
+          <div className="bg-white p-3 rounded-md shadow w-full h-140 flex justify-center">
             <Bar data={chartData} options={chartOptions} />
           </div>
         </div>
