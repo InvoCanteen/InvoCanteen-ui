@@ -61,10 +61,11 @@ export default function Navbar() {
       {/* Toggle */}
       <button
         onClick={() => setIsOpen((v) => !v)}
-        className="mb-4 bg-transparent flex justify-center cursor-pointer"
+        className={`mb-4 bg-transparent flex cursor-pointer 
+        ${isOpen ? "justify-end" : "justify-center"} w-full`}
         aria-label="Toggle sidebar"
       >
-        {isOpen ? <> <SquareChevronLeft className="mr-2" /> Close</> : <SquareChevronRight />}
+        {isOpen ? <> <SquareChevronLeft className="mr-2" /></> : <SquareChevronRight />}
       </button>
 
       {/* Logo InvoCanteen */}

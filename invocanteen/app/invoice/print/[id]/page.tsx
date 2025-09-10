@@ -29,7 +29,7 @@ export default function PrintInvoicePage() {
 
   const items =
     order.items?.map((it: any) => ({
-      name: it.productName || `Produk #${it.productId}`,
+      name: it.product.name,
       qty: it.quantity,
       price: Number(it.price),
     })) || [];
@@ -56,8 +56,8 @@ export default function PrintInvoicePage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
           <div style={{ fontSize: 18, fontWeight: 700 }}>Invoice {order.id}</div>
           <div style={{ textAlign: "right" }}>
-            <div style={{ color: "#6B7280" }}>Tanggal : {today}</div>
-            <div style={{ color: "#6B7280" }}>Customer : {order.customerName}</div>
+            <div style={{ color: "#000000" }}>Tanggal : {today}</div>
+            <div style={{ color: "#000000" }}>Customer : {order.customerName}</div>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@ export default function PrintInvoicePage() {
           </tr>
         </thead>
         <tbody>
-          {items.map((it, idx) => (
+          {items.map((it : any, idx : any) => (
             <tr key={idx}>
               <td style={{ padding: 8, border: "1px solid #E5E7EB" }}>{it.name}</td>
               <td style={{ textAlign: "center", padding: 8, border: "1px solid #E5E7EB" }}>{it.qty}</td>

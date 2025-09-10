@@ -15,9 +15,6 @@ const Footer = () => {
 
                     <div className="border-t border-background/20 pt-6 space-y-2">
                         <p className="text-background/60 text-sm">
-                            Create by Adil Aulia Azuri, Asa Marsal, Mizyal Jillauzi.
-                        </p>
-                        <p className="text-background/60 text-sm">
                             © 2025 Invocanteen. All rights reserved.
                         </p>
 

@@ -54,7 +54,7 @@ export default function Login() {
             
             localStorage.setItem("token", res?.data?.data?.token);
 
-            toast.success("Login berhasil! Mengarahkan ke dashboard...");
+            toast.success("Login berhasil!");
 
             setTimeout(() => {
                 router.replace("/dashboard");
@@ -77,29 +77,37 @@ export default function Login() {
                 
                 <div className="flex flex-col">
 
-                    <div className="flex justify-center -mt-8 mb-6">
 
-                        <img
-                            src="/invocanteen-icon-color-long.png"
-                            alt="Logo"
-                            width={150}
-                            height={150}
-                        />
-                    
-                    </div>
+                    <div className="flex flex-row gap-8">
 
-                    <div className="flex flex-row">
+                        <div>
+                            <img
+                                src="/illustrationlogin2.png"
+                                alt="Illustration"
+                                className=" h-[320] mt-8"
+                                />
+                        </div>
 
                         <div className="flex flex-col w-[400px]">
 
                             <Card>
+                                <div className="flex justify-center">
+
+                                    <img
+                                        src="/invocanteen-icon-color-long.png"
+                                        alt="Logo"
+                                        width={150}
+                                        height={150}
+                                    />
+                                
+                                </div>
                                 <CardHeader>
-                                    <CardTitle className="text-2xl">Login</CardTitle>
+                                    <CardTitle className="text-2xl -mt-2">Login</CardTitle>
                                     <CardDescription>Input your credentials</CardDescription>
                                 </CardHeader>
 
                                 <CardContent>
-                                    <form className="flex flex-col gap-4" onSubmit={handleLogin}>
+                                    <form className="flex flex-col gap-4 mt-2" onSubmit={handleLogin}>
                                         <Input
                                         type="email"
                                         placeholder="Email*"
@@ -117,7 +125,7 @@ export default function Login() {
 
                                         <button
                                         type="submit"
-                                        className="btn-blackbutton rounded-full border border-transparent flex items-center justify-center font-medium text-base h-12 px-5"
+                                        className="btn-blackbutton rounded-full border border-transparent flex items-center justify-center font-medium text-base h-12 px-5 mt-6"
                                         disabled={loading}
                                         >
                                         {loading ? "Loading..." : "Login"}
@@ -141,6 +149,7 @@ export default function Login() {
                             </Card>
 
                         </div>
+
 
                     </div>
 
