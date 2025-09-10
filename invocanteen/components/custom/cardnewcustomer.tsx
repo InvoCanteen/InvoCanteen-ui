@@ -18,7 +18,7 @@ interface CardNewcustomerProps {
   clearItems: () => void;
 }
 
-export default function CardNewcustomer({ onClose, setCustomerName, customerNo, setCustomerNo,clearItems }: CardNewcustomerProps) {
+export default function CardNewcustomer({ onClose, setCustomerName, customerNo, setCustomerNo, clearItems }: CardNewcustomerProps) {
 
   const [name, setName] = React.useState("");
 
@@ -38,23 +38,24 @@ export default function CardNewcustomer({ onClose, setCustomerName, customerNo, 
         </button>
 
         <h2 className="text-xl text-black mb-4">New Customer</h2>
-        <hr className="border-b border-[0.5px] mb-4" 
+        <hr className="border-b border-[0.5px] mb-4"
           style={{ borderColor: "var(--color-grayclear)" }}
         />
 
         <div className="space-y-2 text-sm">
           <p>
             <span className="font-semibold text-black">Customer Name</span>
-            <span style={{ 
-                color: "var(--color-redwarning)" }} >*</span>
+            <span style={{
+              color: "var(--color-redwarning)"
+            }} >*</span>
           </p>
           <Input
             placeholder="Full Name"
             value={name}
             onChange={e => setName(e.target.value)}
-            style={{ 
-                  color: "var(--color-blackclear)" 
-                }}
+            style={{
+              color: "var(--color-blackclear)"
+            }}
           />
         </div>
 
@@ -62,23 +63,23 @@ export default function CardNewcustomer({ onClose, setCustomerName, customerNo, 
           <button
             onClick={async () => {
               try {
-                    const cart = await createNewcart();
-                    
-                    setCustomerNo(cart.id);
+                const cart = await createNewcart();
 
-                    await createNewnameoncart(cart.id, name);
+                setCustomerNo(cart.id);
 
-                    setCustomerName(name);
-                    clearItems();
+                await createNewnameoncart(cart.id, name);
 
-                    toast.success("Customer berhasil ditambahkan!");
+                setCustomerName(name);
+                clearItems();
 
-                    onClose();
+                toast.success("Customer Success Added!");
 
-                    } catch (error) {
-                      toast.error("Gagal menambahkan customer!");
-                    }
-                  }}
+                onClose();
+
+              } catch (error) {
+                toast.error("Failed to added costumerr!");
+              }
+            }}
             className="btn-bluebutton w-full px-4 py-2 text-sm border rounded-full"
           >
             Confirm

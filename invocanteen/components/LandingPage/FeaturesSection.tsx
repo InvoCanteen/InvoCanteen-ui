@@ -3,23 +3,23 @@ import { ShoppingCart, History, FileText, TrendingUp } from "lucide-react";
 const features = [
     {
         icon: ShoppingCart,
-        title: "Transaksi Cepat & Praktis",
-        description: "Proses jual beli makanan dan minuman dengan sistem kasir yang mudah dan efisien"
+        title: "Fast & Practical Transactions",
+        description: "Process food and beverage sales with an easy and efficient cashier system."
     },
     {
         icon: History,
-        title: "Riwayat Order Pelanggan",
-        description: "Pendataan lengkap riwayat pembelian untuk analisis dan pelayanan yang lebih baik"
+        title: "Customer Order History",
+        description: "Complete data collection of purchase history for better analysis and service."
     },
     {
         icon: FileText,
-        title: "Invoice Otomatis",
-        description: "Cetak struk dan invoice secara otomatis untuk setiap transaksi yang dilakukan"
+        title: "Automatic Invoicing",
+        description: "Print receipts and invoices automatically for every transaction."
     },
     {
         icon: TrendingUp,
-        title: "Statistik Penjualan",
-        description: "Dashboard interaktif dengan laporan penjualan real-time dan analisis mendalam"
+        title: "Sales Statistics",
+        description: "Interactive dashboard with real-time sales reports and in-depth analysis."
     }
 ];
 
@@ -29,10 +29,10 @@ const FeaturesSection = () => {
             <div className="max-w-7xl mx-auto">
                 <div className="text-center space-y-4 mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold">
-                        Fitur Unggulan Invocanteen
+                        Invocanteen's Superior Features
                     </h2>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                        Solusi lengkap untuk mengelola kantin modern dengan teknologi terdepan
+                        A complete solution for managing modern canteens with leading technology.
                     </p>
                 </div>
 

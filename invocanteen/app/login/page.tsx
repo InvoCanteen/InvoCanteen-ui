@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input"
 
 import { api_login } from "@/lib/api";
 
-import Lottie  from "lottie-react";
+import Lottie from "lottie-react";
 
 import { Toaster } from "@/components/ui/sonner"
 import { toast } from "sonner";
@@ -19,15 +19,15 @@ import { toast } from "sonner";
 import invoicelottie from "../src/lottie/invoice-auth2.json";
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
 } from "@/components/ui/card"
 
 export default function Login() {
-    
+
     const router = useRouter();
 
     const successregisterParams = useSearchParams();
@@ -51,10 +51,10 @@ export default function Login() {
         try {
 
             const res = await api_login.post("/api/login", { email, password });
-            
+
             localStorage.setItem("token", res?.data?.data?.token);
 
-            toast.success("Login berhasil!");
+            toast.success("Login Success!");
 
             setTimeout(() => {
                 router.replace("/dashboard");
@@ -71,10 +71,10 @@ export default function Login() {
     return (
         <div className="font-sans">
 
-            <Toaster position="top-right" richColors/>
-           
+            <Toaster position="top-right" richColors />
+
             <main className="flex items-center justify-center min-h-screen">
-                
+
                 <div className="flex flex-col">
 
 
@@ -85,7 +85,7 @@ export default function Login() {
                                 src="/illustrationlogin2.png"
                                 alt="Illustration"
                                 className=" h-[320] mt-8"
-                                />
+                            />
                         </div>
 
                         <div className="flex flex-col w-[400px]">
@@ -99,7 +99,7 @@ export default function Login() {
                                         width={150}
                                         height={150}
                                     />
-                                
+
                                 </div>
                                 <CardHeader>
                                     <CardTitle className="text-2xl -mt-2">Login</CardTitle>
@@ -109,26 +109,26 @@ export default function Login() {
                                 <CardContent>
                                     <form className="flex flex-col gap-4 mt-2" onSubmit={handleLogin}>
                                         <Input
-                                        type="email"
-                                        placeholder="Email*"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
+                                            type="email"
+                                            placeholder="Email*"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
                                         />
                                         <Input
-                                        type="password"
-                                        placeholder="Password*"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
+                                            type="password"
+                                            placeholder="Password*"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required
                                         />
 
                                         <button
-                                        type="submit"
-                                        className="btn-blackbutton rounded-full border border-transparent flex items-center justify-center font-medium text-base h-12 px-5 mt-6"
-                                        disabled={loading}
+                                            type="submit"
+                                            className="btn-blackbutton rounded-full border border-transparent flex items-center justify-center font-medium text-base h-12 px-5 mt-6"
+                                            disabled={loading}
                                         >
-                                        {loading ? "Loading..." : "Login"}
+                                            {loading ? "Loading..." : "Login"}
                                         </button>
 
                                         {/* <p className="text-sm text-center">
@@ -154,7 +154,7 @@ export default function Login() {
                     </div>
 
                 </div>
-                
+
             </main>
         </div>
     );
