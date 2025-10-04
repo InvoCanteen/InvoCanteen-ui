@@ -17,7 +17,7 @@ const Header = () => {
                 <div className="flex items-center gap-3">
                     <a href="/login">
                         <Button variant="outline" size="lg" className="btn-bluebutton">
-                            Let's Try
+                            Lets Try
                         </Button>
                     </a>
                 </div>
