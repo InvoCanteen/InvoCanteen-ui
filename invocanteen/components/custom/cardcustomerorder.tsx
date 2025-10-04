@@ -99,12 +99,18 @@ export default function CardCustomerorder({ onClose }: CardCustomerorderProps) {
             ))}
             </div>
         </div>
-        {showNewpayments && <CardNewpayment
-          onClose={() => setNewpayments(false)}
-          totalwithtax={Number(selectedOrder.total) + Number(selectedOrder.tax)}
-          customername={selectedOrder.customerName}
-          customerNo={selectedOrder.id}
-        />}
+        {showNewpayments && selectedOrder && (
+          <CardNewpayment
+            onClose={() => setNewpayments(false)}
+            totalwithtax={Number(selectedOrder.total) + Number(selectedOrder.tax)}
+            customername={selectedOrder.customerName}
+            customerNo={selectedOrder.id}
+            cartId={selectedOrder.id}
+            items={selectedOrder.items || []}
+            clearItems={() => {}}
+            clearCustomer={() => {}}
+          />
+        )}
         {showDeleteorder && <CardDeleteorder onClose={() => setDeleteorder(false)} />}
     </div>
   );

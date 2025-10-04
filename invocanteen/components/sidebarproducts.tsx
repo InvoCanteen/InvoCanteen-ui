@@ -385,7 +385,15 @@ export default function Sidebarproducts({
                     clearItems={() => setItems([])}
                 />
             )}
-            {showNewpayments && <CardNewpayment onClose={() => setNewpayments(false)} totalwithtax={totalwithtax} customername={customerName} customerNo={customerNo} items={items}/>}
+            {showNewpayments && <CardNewpayment 
+                onClose={() => setNewpayments(false)} 
+                totalwithtax={totalwithtax}
+                customername={customerName}
+                customerNo={customerNo}
+                cartId={customerNo}
+                items={items}
+                clearItems={clearItems}
+                clearCustomer={clearCustomer}/>}
             {showDeleteCustomer && <CardDeletecustomer onClose={() => setDeleteCustomer(false)} customerNo={customerNo} clearCustomer={clearCustomer} clearItems={() => setItems([])}/>}
             {showCancelOrder && (<CardCancelorder onClose={() => setCancelOrder(false)} clearItems={() => setItems([])}/>)}
         </aside>

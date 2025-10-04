@@ -27,7 +27,7 @@ interface CardPrintreceiptProps {
 //   onClose: () => void;
 // }
 
-export default function CardPrintreceipt({ onClose, order, totalwithtax, customername, customerNo, change, tendered, idparamsinvoice }: CardPrintreceiptProps) {
+export default function CardPrintreceipt({ onClose, order, totalwithtax, customername, customerNo, change, tendered, idparamsinvoice, clearItems, clearCustomer, clearCustomerno }: CardPrintreceiptProps) {
 
   const [showPreviewinvoice, setPreviewinvoice] = React.useState(false);
 
@@ -72,7 +72,6 @@ export default function CardPrintreceipt({ onClose, order, totalwithtax, custome
           <button
             onClick={() => {
               window.open(`/invoice/print/${idparamsinvoice}`, "_blank");
-              if (typeof onCloseAll === "function") onCloseAll();
               clearItems();
               clearCustomer();
               clearCustomerno();

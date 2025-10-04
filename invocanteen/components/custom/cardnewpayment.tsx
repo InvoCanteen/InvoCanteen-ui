@@ -74,7 +74,7 @@ export default function CardNewpayment({ onClose, totalwithtax, customername, cu
       clearItems();
       clearCustomer();
       setTimeout(() => {
-        console.log({ customerName });
+        console.log({ customername });
       }, 0);
     } catch (error) {
     }
@@ -242,6 +242,9 @@ export default function CardNewpayment({ onClose, totalwithtax, customername, cu
         change={change}
         tendered={Number(tendered)}
         idparamsinvoice={idparamsinvoice}
+        clearItems={clearItems}
+        clearCustomer={clearCustomer}
+        clearCustomerno={() => {}}
       />}
     </div>
   );
