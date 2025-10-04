@@ -24,7 +24,7 @@ const HeroSection = () => {
                     <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                         <a href="/login">
                             <Button variant="outline" size="lg" className="text-base btn-bluebutton">
-                                Let's Try
+                                Lets Try
                             </Button>
                         </a>
                         <Button variant="outline" size="lg" className="text-base">
