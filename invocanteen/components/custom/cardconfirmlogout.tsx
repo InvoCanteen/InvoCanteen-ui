@@ -11,7 +11,7 @@ interface CardConfirmlogoutProps {
   onClose: () => void;
 }
 
-export default function CardConfirmlogout({ onClose }: CardDeleteorderProps) {
+export default function CardConfirmlogout({ onClose }: CardConfirmlogoutProps) {
   
   const router = useRouter();
 
